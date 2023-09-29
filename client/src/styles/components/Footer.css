@@ -1,0 +1,23 @@
+.footer {
+  display: grid;
+  grid-template-columns: auto max-content;
+  padding: 10px 20px;
+  background-color: var(--primary-1);
+  color: var(--primary-4);
+}
+.footer-copy {
+  display: flex;
+  align-items: center;
+}
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  gap: 20px;
+}
+.footer-links a {
+  color: var(--primary-4);
+  text-decoration: none;
+}
+.footer-links a:hover {
+  text-decoration: underline;
+}

@@ -9,80 +9,83 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 50px;
   border-top: 1px solid var(--primary-3);
-  margin: 50px;
-  padding: 50px 0px;
 }
 
 .landing-ctnr > div {
-  width: 80%;
+  width: 100%;
   min-height: 100px;
 }
 
 /* Landing Description of Application */
 .landing-desc {
-  background-color: var(--gray-36);
-  display: grid;
-  grid-template-columns: 20% auto;
-  gap: 30px;
-  border: 1px solid var(--gray-33);
-  border-radius: 5px;
-  padding: 30px;
-}
-.landing-desc-img {
-  width: 100%;
-  height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 30px;
 }
-.landing-desc-img div {
-  background-color: black;
-  width: 100%;
-  aspect-ratio: 1/1;
+.landing-desc > div {
+  width: 70%;
 }
-
 .landing-desc-header {
   font-size: 24px;
   font-weight: 600;
+  color: var(--primary-1);
 }
 .landing-desc-content {
-  padding: 10px;
+  padding: 10px 50px;
 }
 
 /* Landing Product description */
+.landing-header {
+  width: 100%;
+  font-size: 48px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--primary-1);
+  background-color: var(--primary-4);
+  padding: 10px;
+  border: solid var(--primary-3);
+  border-width: 1px 0px 1px 0px;
+}
+
 .landing-prod-desc {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30px;
+  gap: 10px;
+  margin-bottom: 50px;
 }
 .landing-card {
-  background-color: var(--gray-36);
-  width: 80%;
+  width: 70%;
   height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  border: 1px solid var(--gray-33);
-  border-radius: 5px;
 }
-.landing-card span {
+.landing-card-header {
   width: 100%;
   text-align: center;
   font-size: 24px;
   font-weight: 600;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--gray-30);
+  color: var(--primary-1);
+  border-bottom: 1px solid var(--gray-33);
+  padding-bottom: 10px;
 }
 .landing-card-desc {
   width: 80%;
   font-size: 16px;
   line-height: 24px;
-  text-align: center;
-  padding: 20px 20px 0px 20px;
+  padding: 10px 0px 0px 0px;
+}
+.landing-card-desc > span {
+  display: block;
+  padding: 10px 20px;
+}
+.landing-card-desc strong {
+  color: var(--primary-1);
 }

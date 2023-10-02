@@ -38,6 +38,7 @@ export default function Pricing() {
                 <li>20 Time Clock Computers</li>
                 <li>One year of technical support</li>
                 <li>One year of software updates</li>
+                <li>SMS notifications for visitors</li>
               </ul>
             </div>
             <Link>Buy Now</Link>
@@ -55,6 +56,7 @@ export default function Pricing() {
                 <li>1-99 Time Clock Computers</li>
                 <li>One year of technical support</li>
                 <li>One year of software updates</li>
+                <li>SMS notifications for visitors</li>
               </ul>
             </div>
             <Link>Buy Now</Link>

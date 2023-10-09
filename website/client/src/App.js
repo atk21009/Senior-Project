@@ -12,20 +12,37 @@ import pages from "./pages";
 // Import Styling
 import "./styles/Pages";
 
+// import actions
+import * as actions from "./store/actions";
+
 function renderPages() {
   return pages.map((element) => {
-    return <Route exact path={element.path} Component={element.component} />;
+    return (
+      <Route
+        exact
+        path={element.path}
+        Component={element.component}
+        key={element.path}
+      />
+    );
   });
 }
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes>{renderPages()}</Routes>
-      <Footer />
-    </BrowserRouter>
-  );
+class App extends Component {
+  componentDidMount() {
+    this.props.fetchUser();
+    console.log(this);
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+        <Header />
+        <Routes>{renderPages()}</Routes>
+        <Footer />
+      </BrowserRouter>
+    );
+  }
 }
 
-export default App;
+export default connect(null, actions)(App);

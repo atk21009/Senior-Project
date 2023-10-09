@@ -1,9 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import "../styles/components/Header.css";
 
 export default function Header() {
+  const { pathname } = useLocation();
   return (
     <div className="header">
       <div className="header-title">Dynamic Business Sync</div>
@@ -15,7 +16,11 @@ export default function Header() {
         <Link to="/support">Support</Link>
       </div>
       <div className="header-auth">
-        <Link to="/login">Login</Link>
+        {pathname === "/login" ? (
+          <Link to="/signup">Sign Up</Link>
+        ) : (
+          <Link to="/login">Login</Link>
+        )}
       </div>
     </div>
   );

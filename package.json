@@ -6,7 +6,8 @@
   "scripts": {
     "website": "npm run client --prefix website",
     "build-app": "npm run build --prefix application",
-    "app": "npm run start --prefix application"
+    "app": "npm run start --prefix application",
+    "server": "npm run server --prefix website"
   },
   "author": "",
   "license": "ISC"

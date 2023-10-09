@@ -8,6 +8,8 @@
 }
 
 .auth {
+  height: 100%;
+  width: 35%;
   padding: 3rem 5rem;
   background-color: var(--primary-1);
   color: var(--primary-4);

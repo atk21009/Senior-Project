@@ -1,61 +1,66 @@
-const mongoose = require("mongoose");
-const passport = require("passport");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 module.exports = (app) => {
-  // Sign up
-  app.get("/api/signup", (req, res) => {
-    console.log(req.query);
-    const { firstname, lastname, email, password, confirmPassword } = req.query;
+  // login
+  app.post("/api/login", async (req, res) => {
+    const { email, password } = req.body;
 
-    User.findOne({ email: email }).then((user) => {
-      if (user) {
-        res.send("Email already exists");
-      } else {
-        const newUser = new User({
-          firstname,
-          lastname,
-          email,
-          password,
-        });
+    if (!email || !password) {
+      res.status(400);
+      throw new Error("All fields are required");
+    }
 
-        const saltRounds = 10;
-        bcrypt.genSalt(saltRounds, (err, salt) => {
-          if (err) throw err;
-          bcrypt.hash(password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser.save().catch((err) => console.log(err));
-          });
-        });
-      }
+    const user = await User.findOne({ email });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const accessToken = jwt.sign({
+        user: {
+          firstname: user.firstname,
+          email: user.email,
+          id: user.id,
+        },
+      });
+    }
+  });
+  // register
+  app.post("/api/register", async (req, res) => {
+    const { firstname, lastname, email, password, confirmPassword } = req.body;
+
+    if (!firstname || !lastname || !email || !password || !confirmPassword) {
+      res.status(400);
+      throw new Error("All fields are mandatory");
+    }
+
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      res.status(400);
+      throw new Error("User already exists");
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({
+      firstname,
+      lastname,
+      email,
+      password: hashedPassword,
     });
-    res.redirect(307, "/");
+
+    if (user) {
+      user.save();
+      res.status(201).json({ _id: user.id, email: user.email });
+    } else {
+      throw new Error("User data is not valid");
+    }
   });
 
-  // Login
-  app.post("/api/login", (req, res, next) => {
-    passport.authenticate("local", {
-      successRedirect: "/dashboard",
-      failureRedirect: "/login",
-      failureFlash: true,
-    })(req, res, next);
-  });
+  // logout
+  app.delete("/api/logout", (req, res) => {});
 
-  // Logout
-  app.get("/api/logout", (req, res) => {
-    req.logout();
-    req.flash("success_msg", "You are logged out");
-    res.redirect("/login");
-  });
+  // forgot password
+  app.post("/api/forgot", (req, res) => {});
 
-  // Get current user
-  app.get("/api/currentUser", (req, res) => {
-    console.log(req);
-    console.log(req.user);
-    res.send("YES");
-  });
-
-  // Forgot password
+  // current user
+  app.get("/api/current_user", (req, res) => {});
 };

@@ -8,7 +8,13 @@ export const fetchUser = () => async (dispatch) => {
 };
 
 export const signup = (data) => async (dispatch) => {
-  const res = await axios.get("/api/signup", { params: data });
+  const res = await axios.post("/api/register", data);
+
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
+
+export const login = (data) => async (dispatch) => {
+  const res = await axios.post("/api/login", data);
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };

@@ -31,7 +31,10 @@ function renderPages() {
 class App extends Component {
   componentDidMount() {
     this.props.fetchUser();
-    console.log(this);
+    if (localStorage.getItem("OrgToken")) {
+      const token = localStorage.getItem("OrgToken");
+      this.props.viewOrganization({ _id: token });
+    }
   }
 
   render() {

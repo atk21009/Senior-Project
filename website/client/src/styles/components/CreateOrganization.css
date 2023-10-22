@@ -1,0 +1,66 @@
+.COForm-ctnr {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-color: var(--primary-8);
+}
+
+.COForm {
+  background-color: var(--primary-2);
+  width: 50%;
+  height: max-content;
+  border-radius: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  padding: 50px;
+}
+
+.form-CO {
+  width: 100%;
+  display: flex;
+  gap: 40px;
+  flex-direction: column;
+}
+
+.createOrg {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+}
+
+.createOrg input {
+  width: 70%;
+  background-color: var(--primary-6);
+  cursor: pointer;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-1);
+  margin-top: 20px;
+  border: none;
+  border-radius: 10px;
+}
+
+.createOrg input:hover {
+  background-color: var(--primary-7);
+}
+
+.org-field {
+  font-size: 24px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.inputField {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  outline: 0;
+  font-size: 18px;
+}

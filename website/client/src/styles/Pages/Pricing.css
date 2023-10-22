@@ -1,10 +1,12 @@
 .pricing-content {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 5vh;
+  padding: 20px;
 }
 .pricing-ctnr {
+  margin-top: 30px;
   width: 80%;
   display: grid;
   grid-template-columns: repeat(3, calc(100% / 3));
@@ -28,7 +30,10 @@
   border-bottom: 1px solid var(--primary-3);
 }
 .standard-tier > .pricing-header {
-  background-color: var(--primary-1);
+  background-color: var(--primary-5);
+}
+.premium-tier > .pricing-header {
+  background-color: #3c5373;
 }
 .premium-tier {
   position: relative;
@@ -42,8 +47,8 @@
   font-weight: 600;
   padding: 10px;
   text-align: center;
-  color: var(--primary-4);
-  background-color: var(--primary-2);
+  color: var(--primary-9);
+  background-color: var(--primary-4);
 }
 .pricing-header div {
   font-size: 18px;
@@ -63,7 +68,7 @@
 .pricing-price span {
   font-size: 18px;
   font-weight: 400;
-  color: var(--gray-25);
+  color: var(--gray-20);
 }
 
 /* Tier Features */

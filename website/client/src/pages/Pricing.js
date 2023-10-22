@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 export default function Pricing() {
   return (
     <div className="page">
-      <div className="page-ctnr">
-        <div className="page-title">Pricing</div>
-      </div>
       <div className="pricing-content">
         <div className="pricing-ctnr">
           <div className="pricing basic-tier">

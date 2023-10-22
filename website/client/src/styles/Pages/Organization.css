@@ -1,0 +1,122 @@
+.Org-ctnr {
+  width: 100%;
+  display: grid;
+  grid-template-rows: max-content auto;
+  gap: 20px;
+  background-color: var(--gray-37);
+  padding: 40px;
+}
+.Org-TopPanel {
+  height: max-content;
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+.Org-fields-ctnr {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+.Org-fields {
+  background-color: var(--primary-9);
+  border: 1px solid var(--gray-30);
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.Org-fields-label {
+  width: 80%;
+  color: var(--primary-1);
+  font-size: 24px;
+  font-weight: 600;
+  padding: 10px;
+  border-bottom: 1px solid var(--primary-1);
+}
+.Org-fields-data {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-1);
+  padding: 10px;
+}
+
+.Org-card {
+  width: 100%;
+  border-radius: 10px;
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.Org-title {
+  width: 100%;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--primary-1);
+  padding: 15px;
+  background-color: var(--primary-9);
+  border-radius: 10px;
+  position: relative;
+  border: 1px solid var(--gray-30);
+}
+.Org-content {
+  width: 100%;
+  padding: 20px;
+}
+
+.Org-data-ctnr {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.Org-edit-link {
+}
+
+.Org-edit-link {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 10px;
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--primary-1);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+.Org-edit-link i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border: 2px solid var(--primary-1);
+  padding: 3px;
+  font-size: 18px;
+  border-radius: 50%;
+}
+
+.Org-edit-link:hover,
+.Org-edit-link:hover i {
+  color: var(--primary-5);
+  border-color: var(--primary-5);
+}
+
+.Org-ctnr .no-data {
+  width: 100%;
+  background-color: var(--primary-9);
+  color: var(--primary-1);
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
+}

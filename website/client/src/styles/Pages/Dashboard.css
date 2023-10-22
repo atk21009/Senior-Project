@@ -1,0 +1,201 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: max-content auto;
+  min-height: calc(100vh - 106px);
+  background-color: var(--gray-37);
+}
+
+/* Dashboard Nav*/
+.dash-nav {
+  background-color: var(--primary-1);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.dash-nav div {
+  display: flex;
+  justify-content: center;
+}
+
+.dash-nav-link {
+  height: 100%;
+  width: 100%;
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--primary-2);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.bottom-link {
+  border-bottom: none;
+  border-top: 1px solid var(--primary-2);
+}
+
+.dash-nav-link:hover {
+  background-color: var(--test);
+}
+
+/* Dashboard Cards */
+.dashboard-content {
+  width: 100%;
+  padding: 10px;
+  gap: 20px;
+  display: grid;
+  padding: 50px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: max-content;
+}
+
+.employee-view {
+  grid-column: span 2;
+}
+
+.dashboard-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary-9);
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid var(--gray-30);
+}
+
+.dashboard-card-title {
+  width: 100%;
+  color: var(--primary-1);
+  font-size: 28px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid var(--primary-1);
+  padding: 10px;
+}
+
+.dshbrd-fields-ctnr {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  column-gap: 20px;
+}
+
+.dshbrd-fields {
+  width: 90%;
+  display: flex;
+  padding: 2px;
+}
+.dshbrd-fields-label {
+  color: var(--primary-1);
+  font-size: 20px;
+  font-weight: 600;
+  padding-right: 5px;
+}
+.dshbrd-fields-data {
+  color: var(--primary-1);
+  font-size: 20px;
+}
+/* Card Field Empty*/
+.no-data {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 24px;
+  gap: 10px;
+  padding: 20px;
+  color: var(--primary-1);
+}
+.no-data a {
+  color: var(--primary-1);
+  font-weight: 600;
+  text-decoration: none;
+}
+.no-data a:hover {
+  color: var(--primary-5);
+}
+.disclaimer {
+  font-size: 18px;
+  text-align: center;
+}
+
+/* Card Edit button */
+.dashboard-edit-ctnr {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+.dashboard-edit-link {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 10px;
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--primary-1);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px;
+}
+.dashboard-edit-link i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border: 2px solid var(--primary-1);
+  padding: 3px;
+  font-size: 18px;
+  border-radius: 50%;
+}
+
+.dashboard-edit-link:hover,
+.dashboard-edit-link:hover > i {
+  color: var(--primary-5);
+  border-color: var(--primary-5);
+}
+
+/* Employee Info */
+.employee-info {
+  width: 80%;
+  display: flex;
+  gap: 20px;
+  text-align: center;
+  align-items: center;
+  padding: 10px;
+  background-color: var(--gray-37);
+  border-bottom: 1px solid var(--gray-34);
+}
+.employee-info:nth-child(2n) {
+  background-color: var(--gray-38);
+}
+.In {
+  height: 25px;
+  width: 25px;
+  background-color: #228b22;
+  border-radius: 50%;
+  display: inline-block;
+}
+.Out {
+  height: 25px;
+  width: 25px;
+  background-color: #b31b1b;
+  border-radius: 50%;
+  display: inline-block;
+}
+.employee-label {
+  color: var(--primary-1);
+}

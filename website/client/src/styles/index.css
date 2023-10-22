@@ -1,8 +1,21 @@
 :root {
-  --primary-1: #27374d;
-  --primary-2: #526d82;
-  --primary-3: #9db2bf;
-  --primary-4: #dde6ed;
+  --primary-1: rgba(21, 30, 47, 1);
+  --primary-2: #15202b;
+  --primary-3: #22303c;
+  --primary-4: #27374d;
+  --primary-5: #526d82;
+  --primary-6: #8899ac;
+  --primary-7: #9db2bf;
+  --primary-8: #dde6ed;
+  --primary-9: #ffffff;
+
+  --secondary-1: #263238;
+  --secondary-2: #37474f;
+  --secondary-3: #455a64;
+  --secondary-4: #546e7a;
+  --secondary-5: #607d8b;
+
+  --test: #1a2539;
 
   --gray-1: #000000;
   --gray-2: #080808;
@@ -69,6 +82,7 @@ code {
   min-height: calc(100vh - 106px);
   display: flex;
   flex-direction: column;
+  background-color: var(--gray-37);
 }
 
 .page-ctnr {
@@ -76,14 +90,16 @@ code {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 .page-title {
-  width: 80%;
+  width: 100%;
   font-size: 36px;
   font-weight: 600;
   text-align: center;
   color: var(--primary-2);
-  border-bottom: 1px solid var(--primary-2);
-  padding-bottom: 20px;
+  border: 1px solid var(--primary-6);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: var(--primary-7);
 }

@@ -6,9 +6,10 @@
   height: min-content;
   padding: 10px 30px;
   background-color: var(--primary-1);
-  color: var(--primary-4);
+  color: var(--primary-9);
   position: sticky;
   top: 0;
+  z-index: 1;
 }
 
 .header-title {
@@ -20,7 +21,7 @@
 }
 
 .header-links a {
-  color: var(--primary-4);
+  color: var(--primary-9);
   text-decoration: none;
 }
 
@@ -49,12 +50,12 @@
   float: right;
 }
 .header-auth a:hover {
-  background-color: var(--primary-2);
+  background-color: var(--primary-3);
 }
 .header-auth a {
-  color: var(--primary-4);
+  color: var(--primary-9);
   text-decoration: none;
-  border: 2px solid var(--primary-3);
+  border: 2px solid var(--primary-9);
   padding: 10px;
   border-radius: 5px;
 }

@@ -1,19 +1,26 @@
+.features-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 50px;
+  gap: 50px;
+}
+
 .features-card-ctnr {
   width: 100%;
-  padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 20px;
+  background-color: var(--gray-37);
 }
+
 .features-card {
   padding: 20px;
-  width: 70%;
+  width: 90%;
   border-bottom: 1px solid var(--primary-4);
-}
-.features-card-ctnr .features-card:last-child {
-  border-bottom: 0;
+  background-color: white;
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
 }
 
 .features-card-header {
@@ -25,6 +32,7 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
+  gap: 20px;
 }
 .features-card-desc {
   padding: 0px 20px;
@@ -37,16 +45,18 @@
 }
 
 .features-list {
-  padding: 0px 20px;
+  padding: 20px 20px 0px 20px;
+  border-top: 1px solid var(--gray-30);
 }
 .features-list > ul {
   display: grid;
-  grid-template-columns: 35% auto;
+  grid-template-columns: repeat(2, 1fr);
 }
 .features-list-two {
-  padding: 20px 0px;
+  padding-top: 20px;
   display: grid;
-  grid-template-columns: 35% auto;
+  border-top: 1px solid var(--gray-30);
+  grid-template-columns: repeat(2, 1fr);
 }
 .features-list ul,
 .features-list-two > div > ul {

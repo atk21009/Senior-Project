@@ -7,3 +7,5 @@ import "./Login.css";
 import "./Pricing.css";
 import "./SignUp.css";
 import "./Support.css";
+import "./Organization.css";
+import "./Employees.css";

@@ -11,8 +11,8 @@
   height: 100%;
   width: 35%;
   padding: 3rem 5rem;
-  background-color: var(--primary-1);
-  color: var(--primary-4);
+  background-color: var(--primary-2);
+  color: var(--primary-9);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -82,7 +82,7 @@
   font-size: 16px;
 }
 .submit input {
-  background-color: var(--primary-3);
+  background-color: var(--primary-6);
   cursor: pointer;
   padding: 15px;
   font-size: 18px;
@@ -92,8 +92,7 @@
   border: none;
 }
 .submit input:hover {
-  background-color: var(--primary-2);
-  color: white;
+  background-color: var(--primary-7);
 }
 
 .auth p a {

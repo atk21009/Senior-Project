@@ -1,3 +1,6 @@
 node_modules
+
 website/server/config/prod.js
 website/server/config/dev.js
+website/client/.env.development
+website/client/.env.production

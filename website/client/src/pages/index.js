@@ -6,6 +6,11 @@ import Pricing from "./Pricing";
 import Download from "./Download";
 import Support from "./Support";
 import Dashboard from "./Dashboard";
+import CreateEmployees from "./Employees/CreateEmployees";
+import CreateOrganization from "./Organization/CreateOrganization";
+import Organization from "./Organization";
+import Employees from "./Employees";
+import Settings from "./Settings";
 
 const pages = [
   {
@@ -39,6 +44,26 @@ const pages = [
   {
     component: Dashboard,
     path: "/dashboard",
+  },
+  {
+    component: Organization,
+    path: "/organization",
+  },
+  {
+    component: Employees,
+    path: "/employees",
+  },
+  {
+    component: CreateEmployees,
+    path: "/create-employees",
+  },
+  {
+    component: CreateOrganization,
+    path: "/create-organization",
+  },
+  {
+    component: Settings,
+    path: "/settings",
   },
 ];
 

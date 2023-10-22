@@ -5,49 +5,6 @@ export default function Landing() {
     <div className="page">
       <div className="landing-img"></div>
       <div className="landing-ctnr">
-        <div className="landing-desc">
-          <div>
-            <div className="landing-desc-card">
-              <div className="landing-desc-header">Install In Seconds</div>
-              <div className="landing-desc-content">
-                Dynamic Business Sync runs virtually on any Windows device.
-                Following the quick installation guide download the application
-                and have the program running in no time.
-              </div>
-            </div>
-            <div className="landing-desc-card">
-              <div className="landing-desc-header">Simple To Use</div>
-              <div className="landing-desc-content">
-                Navigate all the different features of the Dynamic Business Sync
-                application with ease. Each portal of the DBS application is
-                easily accessible for all the specific needs. Simply install the
-                application to the necessary devices or login online to easily
-                use the application to its fullest with ease.
-              </div>
-            </div>
-            <div className="landing-desc-card">
-              <div className="landing-desc-header">Instant Feedback</div>
-              <div className="landing-desc-content">
-                The DBS application allows for instant feedback to employees or
-                employers. View work hours, hours worked, visitors, and more.
-                Instant feedback will be shown with a quick popup that will
-                display all the necessary information.
-              </div>
-            </div>
-            <div className="landing-desc-card">
-              <div className="landing-desc-header">
-                Keep Track Of Everything
-              </div>
-              <div className="landing-desc-content">
-                Keep track of your business. There is a lot of information that
-                is used in business and the DBS system is here to help. Keep
-                track of employees, visitors and more using the Employer portal.
-                View countless details of your business in an organized fashion
-                that allows easy navigation and response.
-              </div>
-            </div>
-          </div>
-        </div>
         <div className="landing-prod-desc">
           <div className="landing-header">Services</div>
           <div className="landing-card">

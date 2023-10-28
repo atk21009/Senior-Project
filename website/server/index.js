@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 require("./models/User");
 
-mongoose.connect(process.env.mongoURI);
+mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
 

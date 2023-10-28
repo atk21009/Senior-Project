@@ -17,7 +17,7 @@ require("./routes/visitorRoutes")(app);
 if (process.env.NODE_ENV === "production") {
   // Express will serve up production assets
   // like our main.js or main.css file
-  app.use(express.static("client/build"));
+  app.use(express.static("../client/build"));
 
   // express will serve up the index.html file
   // if it doesn't recognize the route

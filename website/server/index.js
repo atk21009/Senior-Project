@@ -1,10 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const keys = require("./config/keys");
 require("./models/User");
 
-mongoose.connect(keys.mongoURI);
+mongoose.connect(process.env.mongoURI);
 
 const app = express();
 

@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
 
 module.exports = (app) => {
   // login
@@ -24,7 +23,7 @@ module.exports = (app) => {
               id: user.id,
             },
           },
-          keys.accessTokenSecret,
+          process.env.accessTokenSecret,
           { expiresIn: "24hr" }
         );
         res.status(200).json({ accessToken });
@@ -69,7 +68,7 @@ module.exports = (app) => {
                   id: user.id,
                 },
               },
-              keys.accessTokenSecret,
+              process.env.accessTokenSecret,
               { expiresIn: "1hr" }
             );
             res.status(200).json({ accessToken });
@@ -90,7 +89,7 @@ module.exports = (app) => {
     let authHeader = req.headers.Authorization || req.headers.authorization;
     if (authHeader && authHeader.startsWith("Bearer")) {
       token = authHeader.split(" ")[1];
-      jwt.verify(token, keys.accessTokenSecret, (err, decoded) => {
+      jwt.verify(token, process.env.accessTokenSecret, (err, decoded) => {
         if (err) {
           res.status(401);
           res.send("Invalid Token");

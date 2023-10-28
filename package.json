@@ -8,7 +8,7 @@
     "build-app": "npm run build --prefix application",
     "app": "npm run start --prefix application",
     "server": "npm run server --prefix website",
-    "start": "node --prefix website/server/index.js",
+    "start": "cd website/server && npm install && node run start",
     "postinstall": "npm install --prefix website/client && npm run build --prefix website/client"
   },
   "author": "",

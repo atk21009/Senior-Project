@@ -9,7 +9,7 @@
     "app": "npm run start --prefix application",
     "server": "npm run server --prefix website",
     "start": "node website/server/index.js",
-    "postinstall": "npm install website/client && npm run build website/client"
+    "postinstall": "npm install --prefix website/client && npm run build --prefix website/client"
   },
   "author": "",
   "license": "ISC"

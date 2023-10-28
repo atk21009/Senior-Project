@@ -5,8 +5,6 @@ import icon from "../../../imgs/icon/iconWhite.svg";
 
 import _ from "lodash";
 
-import "../../../styles/components/CreateOrganization.css";
-
 import COFields from "./COFields";
 import COField from "./COField";
 const COForm = (props) => {

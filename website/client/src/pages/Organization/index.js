@@ -30,7 +30,7 @@ function renderOrganization(e) {
         <div className="Org-fields" key={labels[i]}>
           <div className="Org-fields-label">{labels[i]}</div>
           <div className="Org-fields-data">
-            {data[i].length !== 0 || !data[i] ? data[i] : "None"}
+            {data[i].length !== 0 || !data[i] ? data[i] : "-"}
           </div>
         </div>
       );
@@ -50,23 +50,40 @@ function renderOrganization(e) {
   }
 }
 function renderData(e) {
-  let data = [];
-  let headers = [
-    "Cost",
-    "Clocked In",
-    "Clocked Out",
-    "Visitors",
-    "Close to OT",
-  ];
-  for (let i = 0; i < 5; i++) {
-    data.push(
-      <div className="Org-fields" key={headers[i]}>
-        <div className="Org-fields-label">{headers[i]}</div>
-        <div className="Org-fields-data">Test</div>
+  if (e.props.org.status === 200) {
+    const res = e.props.orgData.data;
+    let cost = null;
+    if (res.cost) {
+      cost = "$" + parseFloat(res.cost).toFixed(2);
+    } else {
+      cost = "$0.00";
+    }
+
+    const resData = [cost, res.clockedIn, res.clockedOut, res.Visitor, res.OT];
+    let data = [];
+    let headers = [
+      "Cost",
+      "Clocked In",
+      "Clocked Out",
+      "Visitors",
+      "Close to OT",
+    ];
+    for (let i = 0; i < 5; i++) {
+      data.push(
+        <div className="Org-fields" key={headers[i]}>
+          <div className="Org-fields-label">{headers[i]}</div>
+          <div className="Org-fields-data">{resData[i]}</div>
+        </div>
+      );
+    }
+    return <div className="Org-data-ctnr">{data}</div>;
+  } else {
+    return (
+      <div className="no-data">
+        <span>No organization information found.</span>
       </div>
     );
   }
-  return data;
 }
 function renderContent(e) {
   return (
@@ -77,9 +94,7 @@ function renderContent(e) {
           <div className="Org-card">{renderOrganization(e)}</div>
           <div className="Org-card">
             <div className="Org-title">Organization Data</div>
-            <div className="Org-content">
-              <div className="Org-data-ctnr">{renderData(e)}</div>
-            </div>
+            <div className="Org-content">{renderData(e)}</div>
           </div>
         </div>
       </div>
@@ -95,12 +110,18 @@ class Organization extends Component {
     };
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem("OrgToken");
-    this.props.viewOrganization({ _id: token }).then(() => {
+  async componentDidMount() {
+    if (!this.props.org || !this.props.orgData) {
+      const token = localStorage.getItem("OrgToken");
+      const org = await this.props.viewOrganization({ _id: token });
+      const orgData = await this.props.getOrganizationData();
+
+      Promise.all([token, org, orgData]).then(() => {
+        this.setState({ content: renderContent(this) });
+      });
+    } else {
       this.setState({ content: renderContent(this) });
-    });
-    console.log(this);
+    }
   }
 
   render() {
@@ -108,8 +129,8 @@ class Organization extends Component {
   }
 }
 
-function mapStateToProps({ auth, org }) {
-  return { auth, org };
+function mapStateToProps({ auth, org, orgData }) {
+  return { auth, org, orgData };
 }
 
 export default connect(mapStateToProps, actions)(Organization);

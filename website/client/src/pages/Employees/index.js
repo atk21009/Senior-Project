@@ -7,27 +7,33 @@ import LoadingScreen from "../../components/LoadingScreen";
 
 import * as actions from "../../store/actions";
 
-function renderOT() {
+function renderOT(e) {
   let emp = [];
-  for (let i = 0; i < 15; i++) {
-    emp.push(
-      <tr key={i}>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>
-          <i className="fa-solid fa-lock"></i>
-        </td>
-      </tr>
-    );
-  }
+  const empData = e.props.emp.data;
+  empData.map((employee) => {
+    if (parseInt(employee.hoursWorked) > 40) {
+      emp.push(
+        <tr key={employee.email + " "}>
+          <td>{employee.firstname}</td>
+          <td>{employee.lastname}</td>
+          <td>{employee.email}</td>
+          <td>
+            {employee.clockStatus === true ? "Clocked In" : "Clocked Out"}
+          </td>
+          <td>{employee.hoursWorked} Hours</td>
+          <td>{employee.employeeNumber}</td>
+          <td>{employee.office || "-"}</td>
+          <td>{employee.position || "-"}</td>
+          <td>{employee.phonenumber || "-"}</td>
+        </tr>
+      );
+    }
+  });
+
   return (
     <div className="Emp-list">
       <div className="Emp-card-title">
-        Employees Close To Overtime
+        Employees Over Time
         <input
           className="Emp-card-search"
           id="OTSearch"
@@ -36,7 +42,7 @@ function renderOT() {
         />
       </div>
       <div className="Emp-card-content">
-        {
+        {emp.length !== 0 ? (
           <table className="Emp-table" id="OT-table">
             <tbody>
               <tr className="Emp-table-headers">
@@ -45,45 +51,41 @@ function renderOT() {
                 <th>Email</th>
                 <th>Clock Status</th>
                 <th>Hours This Week</th>
-                <th>Username</th>
-                <th>Password</th>
+                <th>Employee Number</th>
+                <th>Office</th>
+                <th>Position</th>
+                <th>Phone Number</th>
               </tr>
               {emp}
-              <tr>
-                <td>Test1</td>
-                <td>Test2</td>
-                <td>Test3</td>
-                <td>Test4</td>
-                <td>Test5</td>
-                <td>Test6</td>
-                <td>
-                  <i className="fa-solid fa-lock"></i>
-                </td>
-              </tr>
             </tbody>
           </table>
-        }
+        ) : (
+          <div className="Emp-overtime">
+            No employees are on over time hours
+          </div>
+        )}
       </div>
     </div>
   );
 }
-function renderEmployees() {
+function renderEmployees(e) {
   let emp = [];
-  for (let i = 0; i < 15; i++) {
-    emp.push(
-      <tr key={i + " "}>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>Test</td>
-        <td>
-          <i className="fa-solid fa-lock"></i>
-        </td>
+  const empData = e.props.emp.data;
+  empData.map((employee) => {
+    return emp.push(
+      <tr key={employee.email + " "}>
+        <td>{employee.firstname}</td>
+        <td>{employee.lastname}</td>
+        <td>{employee.email}</td>
+        <td>{employee.clockStatus === true ? "Clocked In" : "Clocked Out"}</td>
+        <td>{employee.hoursWorked} Hours</td>
+        <td>{employee.employeeNumber}</td>
+        <td>{employee.office || "-"}</td>
+        <td>{employee.position || "-"}</td>
+        <td>{employee.phonenumber || "-"}</td>
       </tr>
     );
-  }
+  });
   return (
     <div className="Emp-list">
       <div className="Emp-card-title">
@@ -96,31 +98,26 @@ function renderEmployees() {
         />
       </div>
       <div className="Emp-card-content">
-        <table className="Emp-table" id="Emp-table">
-          <tbody>
-            <tr className="Emp-table-headers">
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Clock Status</th>
-              <th>Hours This Week</th>
-              <th>Username</th>
-              <th>Password</th>
-            </tr>
-            {emp}
-            <tr>
-              <td>Test1</td>
-              <td>Test2</td>
-              <td>Test3</td>
-              <td>Test4</td>
-              <td>Test5</td>
-              <td>Test6</td>
-              <td>
-                <i className="fa-solid fa-lock"></i>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        {emp.length !== 0 ? (
+          <table className="Emp-table" id="Emp-table">
+            <tbody>
+              <tr className="Emp-table-headers">
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Clock Status</th>
+                <th>Hours This Week</th>
+                <th>Employee Number</th>
+                <th>Office</th>
+                <th>Position</th>
+                <th>Phone Number</th>
+              </tr>
+              {emp}
+            </tbody>
+          </table>
+        ) : (
+          <div className="Emp-overtime">No employees found</div>
+        )}
       </div>
     </div>
   );
@@ -165,14 +162,26 @@ function searchEmp() {
     }
   }
 }
-function renderNoData() {
+function renderNoData(e) {
+  console.log(e);
   return (
     <div className="Emp-no-data">
       <div className="no-data">
-        <span>
-          No employees information found.{" "}
-          <Link to="/create-employees">Create Employees</Link>
-        </span>
+        {!e.props.org || e.props.org.status === 204 ? (
+          <>
+            <span>
+              No organization information found.{" "}
+              <Link to="/create-organization">Create Organization</Link>
+            </span>
+          </>
+        ) : (
+          <>
+            <span>
+              No employees information found.{" "}
+              <Link to="/create-employees">Create Employees</Link>
+            </span>
+          </>
+        )}
       </div>
     </div>
   );
@@ -186,31 +195,46 @@ class Employees extends Component {
     };
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem("OrgToken");
-    this.props.viewOrganization({ _id: token }).then(() => {
-      if (this.props.org.status === 204) {
-        this.setState({ content: renderNoData() });
-      } else {
-        this.setState({
-          content: (
-            <>
-              {renderOT()}
-              {renderEmployees()}
-            </>
-          ),
-        });
-      }
-    });
+  async componentDidMount() {
+    if (!this.props.emp) {
+      await this.props.viewEmployees().then(() => {
+        if (this.props.emp.status === 200) {
+          this.setState({
+            content: [renderOT(this), renderEmployees(this)],
+          });
+        } else {
+          this.setState({ content: renderNoData(this) });
+        }
+      });
+    } else if (this.props.emp.status === 203) {
+      this.setState({ content: renderNoData(this) });
+    } else if (this.props.emp.status === 200) {
+      this.setState({
+        content: [renderOT(this), renderEmployees(this)],
+      });
+    }
   }
+
   render() {
     return (
       <div className="page">
         <div className="dashboard">
           <DashboardNav />
           <div className="Emp-page">
-            <div className="Emp-title">Employees</div>
-            <div className="Emp-card-ctnr">{this.state.content}</div>
+            <div className="Emp-card-ctnr">
+              <div className="Emp-title">
+                Employees
+                {!this.props.org || this.props.org.status === 204 ? (
+                  <></>
+                ) : (
+                  <Link to="/create-employees" className="Emp-create">
+                    Create Employees
+                    <i className="fa-solid fa-chevron-right"></i>
+                  </Link>
+                )}
+              </div>
+              {this.state.content}
+            </div>
           </div>
         </div>
       </div>
@@ -218,8 +242,8 @@ class Employees extends Component {
   }
 }
 
-function mapStateToProps({ auth, org }) {
-  return { auth, org };
+function mapStateToProps({ auth, org, emp }) {
+  return { auth, org, emp };
 }
 
 export default connect(mapStateToProps, actions)(Employees);

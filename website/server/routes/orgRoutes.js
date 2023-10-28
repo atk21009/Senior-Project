@@ -1,3 +1,4 @@
+const Employee = require("../models/Employee");
 const Organization = require("../models/Organization");
 const User = require("../models/User");
 
@@ -7,7 +8,7 @@ module.exports = (app) => {
     let _id = req.body.res.data.id;
     let { company, teir, location, owner, admin, hr } = req.body.data;
     if (!company || !location || !_id) {
-      res.status(400);
+      res.status(203);
       res.send("All fields are required");
     } else {
       const existOrg = await Organization.findOne({ company });
@@ -78,5 +79,47 @@ module.exports = (app) => {
     const { _id } = req.body;
     await Organization.findByIdAndDelete(_id);
     res.send("Organization Deleted");
+  });
+
+  app.get("/api/org-data", async (req, res) => {
+    const { OrgToken } = req.query;
+
+    const emp = await Employee.find(
+      { company: OrgToken },
+      {
+        hoursWorked: 1,
+        hourlyRate: 1,
+        clockStatus: 1,
+      }
+    );
+    let cost = 0,
+      clockedIn = 0,
+      clockedOut = 0,
+      OT = 0,
+      Visitor = 0;
+    if (emp) {
+      emp.forEach((element) => {
+        const rate = parseFloat(element.hourlyRate.slice(1));
+        const hw = parseInt(element.hoursWorked);
+        const clockStatus = element.clockStatus === "true";
+
+        cost += rate * hw;
+
+        if (clockStatus === "true") {
+          clockedIn += 1;
+        } else {
+          clockedOut += 1;
+        }
+
+        if (hw > 35) {
+          OT += 1;
+        }
+      });
+      res.status(200);
+      res.send({ cost, clockedIn, clockedOut, Visitor, OT });
+    } else {
+      res.status(204);
+      res.send("No employees found");
+    }
   });
 };

@@ -1,0 +1,193 @@
+.CE-page {
+  display: grid;
+  grid-template-rows: max-content auto;
+  padding: 10px;
+}
+
+.CE-title {
+  width: 100%;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--primary-1);
+  padding: 15px;
+  background-color: var(--primary-9);
+  border-radius: 10px;
+  position: relative;
+  border: 1px solid var(--gray-30);
+}
+
+.CE-ctnr {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  padding: 20px;
+  gap: 20px;
+}
+
+.CE-card {
+  background-color: var(--primary-9);
+  padding: 20px;
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
+  position: relative;
+}
+
+.CE-subtitle {
+  width: 100%;
+  color: var(--primary-1);
+  font-size: 24px;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid var(--primary-1);
+  padding: 10px;
+}
+
+.CE-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.form-CE {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+.CE-field {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.CE-field div {
+  position: relative;
+}
+
+.CE-field i {
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0%, -50%);
+  cursor: pointer;
+}
+
+.createEmp {
+  width: 100%;
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+}
+#CE-Submit {
+  width: 70%;
+  background-color: var(--primary-9);
+  cursor: pointer;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-1);
+  margin-top: 20px;
+  border: 2px solid var(--primary-1);
+  border-radius: 10px;
+}
+
+#CE-Submit:hover {
+  background-color: var(--primary-1);
+  color: var(--primary-9);
+}
+
+.CE-card-desc {
+  font-size: 18px;
+  width: 90%;
+}
+.CE-card-label {
+  padding: 20px;
+  width: 80%;
+  text-align: center;
+}
+
+.CE-Form-Employees {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CE-card-submit {
+  width: 30%;
+  text-align: center;
+  background-color: var(--primary-9);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-1);
+  display: inline-block;
+  padding: 15px 30px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 2px solid var(--primary-1);
+  margin: 20px 0px;
+}
+.CE-card-submit:hover {
+  color: var(--primary-9);
+  background-color: var(--primary-1);
+}
+.CE-card-submit input[type="file"] {
+  display: none;
+}
+
+#file_label h1 {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--gray-25);
+  margin: 0;
+  padding: 10px;
+}
+#file_label div {
+  padding: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.shown {
+  visibility: visible;
+  padding: 15px 30px;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid var(--gray-25);
+}
+.hidden {
+  visibility: hidden;
+  border: none;
+}
+
+.CE-employees-submit {
+  width: 70%;
+  background-color: var(--primary-9);
+  cursor: pointer;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-1);
+  margin-top: 20px;
+  border: 2px solid var(--primary-1);
+  border-radius: 10px;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.CE-employees-submit:hover {
+  background-color: var(--primary-1);
+  color: var(--primary-9);
+}
+
+.CE-disclaimer {
+  text-align: center;
+  font-size: 14px;
+}

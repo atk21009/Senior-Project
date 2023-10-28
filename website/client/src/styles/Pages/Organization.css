@@ -4,7 +4,7 @@
   grid-template-rows: max-content auto;
   gap: 20px;
   background-color: var(--gray-37);
-  padding: 40px;
+  padding: 50px;
 }
 .Org-TopPanel {
   height: max-content;
@@ -48,7 +48,6 @@
 .Org-card {
   width: 100%;
   border-radius: 10px;
-  padding: 10px 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -74,9 +73,6 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
-}
-
-.Org-edit-link {
 }
 
 .Org-edit-link {

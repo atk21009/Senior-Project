@@ -13,50 +13,55 @@ const employeeSchema = new Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   phonenumber: {
     type: String,
-    required: true,
+    default: "",
   },
   address: {
     type: String,
-    required: true,
+    default: "",
   },
-  soc: {
+  birthDate: {
     type: String,
-    required: true,
+    default: "",
   },
-  username: {
+  ssn: {
+    type: String,
+    default: "",
+  },
+  employeeNumber: {
     type: String,
     required: true,
   },
   password: {
     type: String,
-    required: true,
+    default: "",
   },
   company: {
     type: String,
-    required: true,
+    default: "",
   },
   office: {
     type: String,
-    required: true,
+    default: "",
   },
   position: {
     type: String,
-    required: true,
+    default: "",
   },
   hourlyRate: {
     type: String,
-    required: true,
+    default: "$0",
   },
   hoursWorked: {
     type: String,
-    required: true,
+    default: 0,
   },
   hireDate: {
     type: String,
-    required: true,
+    default: "",
   },
   clockStatus: {
     type: String,

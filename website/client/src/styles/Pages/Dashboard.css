@@ -61,6 +61,24 @@
 
 .employee-view {
   grid-column: span 2;
+  height: max-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.employee-card-title {
+  width: 100%;
+  color: var(--primary-1);
+  font-size: 28px;
+  font-weight: 600;
+  text-align: left;
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: var(--primary-9);
+  position: relative;
 }
 
 .dashboard-card {
@@ -82,6 +100,7 @@
   text-align: left;
   border-bottom: 1px solid var(--primary-1);
   padding: 10px;
+  position: relative;
 }
 
 .dshbrd-fields-ctnr {
@@ -130,6 +149,13 @@
 .disclaimer {
   font-size: 18px;
   text-align: center;
+}
+
+.employee-no-data {
+  height: 100%;
+  background-color: var(--primary-9);
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
 }
 
 /* Card Edit button */
@@ -198,4 +224,52 @@
 }
 .employee-label {
   color: var(--primary-1);
+}
+
+/* Emp Table */
+.Dashboard-card-content {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  display: flex;
+}
+.dashboard-table {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-radius: 10px;
+  border: 1px solid var(--gray-30);
+  margin: 10px;
+}
+
+.dashboard-table tbody {
+  width: 100%;
+  display: grid;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dashboard-table th {
+  background-color: var(--gray-20);
+  color: var(--primary-9);
+  padding: 5px 10px;
+}
+.dashboard-table tr {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: 100%;
+  background-color: var(--primary-9);
+  border-bottom: 1px solid var(--gray-30);
+}
+.dashboard-table tr:nth-child(2n) {
+  background-color: var(--gray-35);
+}
+.dashboard-table td,
+.dashboard-table th {
+  padding: 5px 10px;
+  border: none;
+  text-align: center;
 }

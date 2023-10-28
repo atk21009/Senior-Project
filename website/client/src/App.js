@@ -11,6 +11,7 @@ import pages from "./pages";
 
 // Import Styling
 import "./styles/Pages";
+import "./styles/components";
 
 // import actions
 import * as actions from "./store/actions";

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
-import "../styles/components/Header.css";
 const Header = (props) => {
   const location = useLocation();
 

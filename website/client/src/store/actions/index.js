@@ -1,9 +1,8 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_ORG } from "./types";
+import { FETCH_USER, FETCH_ORG, FETCH_EMP, FETCH_DATA_ORG } from "./types";
 import jwt from "jwt-decode";
 
-// Authorization Actions
-
+// Authorization Actions ----------------------------------------------------
 export const fetchUser = () => async (dispatch) => {
   try {
     if (localStorage.getItem("token")) {
@@ -23,26 +22,23 @@ export const fetchUser = () => async (dispatch) => {
     localStorage.removeItem("OrgToken");
   }
 };
-
 export const signup = (data) => async (dispatch) => {
   await axios.post("/api/register", data).then((res) => {
     store(res, dispatch);
   });
 };
-
 export const login = (data) => async (dispatch) => {
   await axios.post("/api/login", data).then((res) => {
     store(res, dispatch);
   });
 };
-
 export const logout = () => async (dispatch) => {
   window.location.href = "/";
   localStorage.removeItem("token");
   localStorage.removeItem("OrgToken");
 };
 
-// Organization Actions
+// Organization Actions ----------------------------------------------------
 export const createOrganization = (data) => async (dispatch) => {
   const token = localStorage.getItem("token");
   const res = await axios.get("/api/currentUser", {
@@ -53,17 +49,42 @@ export const createOrganization = (data) => async (dispatch) => {
   });
 };
 export const updateOrganization = () => async (dispatch) => {};
-
 export const viewOrganization = (data) => async (dispatch) => {
   await axios.get("/api/view-org", { params: data }).then((res) => {
     dispatch({ type: FETCH_ORG, payload: res });
   });
 };
 export const deleteOrganization = () => async (dispatch) => {};
+export const getOrganizationData = () => async (dispatch) => {
+  const OrgToken = localStorage.getItem("OrgToken");
 
-// Visitor Actions
+  await axios.get("/api/org-data", { params: { OrgToken } }).then((res) => {
+    dispatch({ type: FETCH_DATA_ORG, payload: res });
+  });
+};
 
-// Store Functions
+// Employee Actions ----------------------------------------------------
+export const createEmployee = (data) => async (dispatch) => {
+  const OrgToken = localStorage.getItem("OrgToken");
+
+  await axios.post("/api/create-emp", { OrgToken, data }).then((res) => {
+    EmpStore(res, dispatch);
+  });
+};
+export const createEmployees = (data) => async (dispatch) => {
+  axios.post("/api/create-employees", data);
+};
+export const viewEmployees = () => async (dispatch) => {
+  const token = localStorage.getItem("OrgToken");
+
+  await axios.get("/api/view-employees", { params: { token } }).then((res) => {
+    dispatch({ type: FETCH_EMP, payload: res });
+  });
+};
+
+// Visitor Actions ----------------------------------------------------
+
+// Store Functions ----------------------------------------------------
 function store(res, dispatch) {
   const token = res.data.accessToken;
   const user = jwt(token);
@@ -72,11 +93,14 @@ function store(res, dispatch) {
   window.location.href = "/dashboard";
   dispatch({ type: FETCH_USER, payload: { token, user } });
 }
-
 function OrgStore(res, dispatch) {
   const OrgToken = res.data._id;
   const Org = res.data;
   localStorage.setItem("OrgToken", OrgToken);
   window.location.href = "/dashboard";
   dispatch({ type: FETCH_ORG, payload: { OrgToken, Org } });
+}
+function EmpStore(res, dispatch) {
+  window.location.href = "/dashboard";
+  dispatch({ type: FETCH_EMP, payload: { res } });
 }

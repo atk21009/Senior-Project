@@ -1,5 +1,4 @@
 .Emp-page {
-  max-height: calc(100vh - 106px);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -15,16 +14,50 @@
   background-color: var(--primary-9);
   border-radius: 10px;
   border: 1px solid var(--gray-30);
+  position: relative;
 }
+
+.Emp-create {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  gap: 10px;
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--primary-1);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+.Emp-create i {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  width: 30px;
+  border: 2px solid var(--primary-1);
+  padding: 3px;
+  font-size: 18px;
+  border-radius: 50%;
+}
+
+.Emp-create:hover,
+.Emp-create:hover i {
+  color: var(--primary-5);
+  border-color: var(--primary-5);
+}
+
 .Emp-card-ctnr {
   height: 100%;
-  display: grid;
-  grid-template-rows: 40% 40%;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 }
 .Emp-list {
-  max-height: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -69,19 +102,10 @@
   table-layout: fixed;
   border-collapse: collapse;
   border-radius: 10px;
-  overflow-y: scroll;
   border: 1px solid var(--gray-30);
+  overflow: hidden;
 }
 
-.Emp-table::-webkit-scrollbar {
-  width: 10px;
-  border-radius: 0px 10px 10px 0px;
-  background-color: var(--gray-37);
-}
-.Emp-table::-webkit-scrollbar-thumb {
-  background: var(--gray-25);
-  border-radius: 10px;
-}
 .Emp-table tbody {
   width: 100%;
   display: grid;
@@ -105,7 +129,7 @@
 }
 .Emp-table tr {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   width: 100%;
   background-color: var(--primary-9);
   border-bottom: 1px solid var(--gray-30);
@@ -126,4 +150,16 @@
   border: 1px solid var(--gray-30);
   border-radius: 10px;
   padding: 20px;
+}
+
+.Emp-overtime {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  background-color: var(--primary-9);
+  border-radius: 10px;
+  border: 1px solid var(--gray-30);
 }

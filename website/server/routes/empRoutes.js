@@ -44,14 +44,14 @@ module.exports = (app) => {
           address: address || "null",
           birthDate: birthDate || "null",
           ssn: ssn || "null",
-          empNum: empNum || "null",
+          employeeNumber: empNum || "null",
           office: office || "null",
           position: position || "null",
           hourlyRate: hourlyRate || "null",
           hireDate: hireDate || "null",
         };
-        console.log(empValues);
-        if (validate(empValues)) {
+        const errors = await validate(OrgToken, empValues);
+        if (errors.length > 0) {
           const [hashedSSN, hashedPassword] = await createUserPass(ssn);
           const employee = new Employee({
             firstname,
@@ -87,32 +87,64 @@ module.exports = (app) => {
     const { OrgToken } = req.body;
     const data = req.files.file;
     const file = data.data.toString("utf8");
-    const parsed = Papa.parse(file).data;
+    const parsed = Papa.parse(file, { skipEmptyLines: true }).data.slice(1);
 
     let errors = [];
-    parsed.forEach((emp) => {
-      if (emp.length === 10) {
-        const empValues = {
-          firstname: emp[0],
-          lastname: emp[1],
-          email: emp[2],
-          phonenumber: emp[3],
-          address: emp[4],
-          ssn: emp[5],
-          office: emp[6],
-          position: emp[7],
-          hourlyRate: emp[8],
-          birthDate: emp[9],
-        };
-        console.log("Employee", emp);
-        console.log("OrgToken", OrgToken);
-        const val = validate(empValues);
-        if (val[0] === false) {
-          errors.push([empValues.firstname, empValues.lastname, val[1]]);
+    const employees = parsed.map(async (emp) => {
+      const empValues = {
+        firstname: emp[0],
+        lastname: emp[1],
+        email: emp[2],
+        phonenumber: emp[3],
+        address: emp[4],
+        birthDate: emp[5],
+        ssn: null,
+        employeeNumber: emp[7],
+        password: null,
+        company: OrgToken,
+        office: emp[8],
+        position: emp[9],
+        hourlyRate: emp[10],
+        hireDate: emp[11],
+      };
+      await validate(OrgToken, empValues).then((res) => {
+        if (res.length > 0) {
+          errors.push({
+            firstname: empValues.firstname,
+            lastname: empValues.lastname,
+            employeeNumber: empValues.employeeNumber,
+            error: res,
+          });
+          return res;
         }
-      }
+      });
+      const [hashedSSN, hashedPassword] = await createUserPass(emp[6]);
+      empValues.password = hashedPassword;
+      empValues.ssn = hashedSSN;
+      return empValues;
     });
-    console.log(errors);
+
+    await Promise.all(employees).then(async (res) => {
+      const errEmpNum = errors.map((e) => {
+        return e.employeeNumber;
+      });
+      const filterEmp = res
+        .map((e) => {
+          const empNum = e.employeeNumber;
+          if (!errEmpNum.includes(empNum)) {
+            return e;
+          }
+        })
+        .filter((item) => item);
+      await Employee.insertMany(filterEmp);
+    });
+    if (errors.length > 0) {
+      res.status(206);
+      res.send(errors);
+    } else {
+      res.status(201);
+      res.send("All Employees inserted");
+    }
   });
   // view employee
   // view employees
@@ -148,38 +180,74 @@ module.exports = (app) => {
   // delete employee
 };
 
-function validate(empValues) {
+async function validate(OrgToken, empValues) {
   const validNums = /\d{3}-\d{2}-\d{4}/;
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  if (empValues.ssn) {
-    if (!validNums.test(empValues.ssn)) {
-      return [false, "Invalid SSN"];
-    }
+  let errors = [];
+
+  const flag =
+    !empValues.firstname ||
+    !empValues.lastname ||
+    !empValues.email ||
+    !empValues.employeeNumber ||
+    empValues.firstname === "" ||
+    empValues.lastname === "" ||
+    empValues.email === "" ||
+    empValues.employeeNumber === "";
+
+  if (flag) {
+    return ["First name, last name, email, and employee number are required"];
+  } else {
+    const empNum_exists = await Employee.findOne({
+      company: OrgToken,
+      employeeNumber: empValues.employeeNumber,
+    });
+    const email_exists = await Employee.findOne({
+      company: OrgToken,
+      email: empValues.email,
+    });
+
+    errors = Promise.all([empNum_exists, email_exists])
+      .then(() => {
+        e = [];
+        if (empNum_exists || email_exists) {
+          e.push("Employee already exists");
+        }
+        if (empValues.ssn && empValues.ssn !== "") {
+          if (!validNums.test(empValues.ssn)) {
+            e.push("Invalid SSN");
+          }
+        }
+
+        if (!re.test(empValues.email)) {
+          e.push("Invalid Email");
+        }
+
+        if (empValues.phonenumber) {
+          if (!empValues.phonenumber.length === 10) {
+            e.push("Invalid Phone Number");
+          }
+        }
+        if (empValues.birthDate && empValues.birthDate !== "") {
+          const valDate = validDate(empValues.birthDate);
+          if (valDate[0] === false) {
+            e.push("Invalid birth date: " + valDate[1]);
+          }
+        }
+        if (empValues.hireDate && empValues.hireDate !== "") {
+          const valDate = validDate(empValues.hireDate);
+          if (valDate[0] === false) {
+            e.push("Invalid hire date: " + valDate[1]);
+          }
+        }
+      })
+      .then(() => {
+        return e;
+      });
+
+    return errors;
   }
-  if (empValues.email) {
-    if (!re.test(empValues.email)) {
-      return [false, "Invalid Email"];
-    }
-  }
-  if (empValues.phonenumber) {
-    if (!empValues.phonenumber.length === 10) {
-      return [false, "Invalid Phone Number"];
-    }
-  }
-  if (empValues.birthDate) {
-    const valDate = validDate(empValues.birthDate);
-    if (!valDate[0]) {
-      return valDate[1];
-    }
-  }
-  if (empValues.hireDate) {
-    const valDate = validDate(empValues.hireDate);
-    if (!valDate[0]) {
-      return valDate[1];
-    }
-  }
-  return true;
 }
 function validDate(date) {
   // Regex
@@ -199,7 +267,7 @@ function validDate(date) {
     return [false, "Invalid Year"];
   }
   // Month
-  if (month < 1 || month < 12) {
+  if (month < 1 || month > 12) {
     return [false, "Invalid Month"];
   }
   // Day
@@ -209,14 +277,13 @@ function validDate(date) {
   if (leap) {
     monthLength[1] = 29;
   }
-  if (day > 0 && day < monthLength[month - 1]) {
+  if (day < 0 || day > monthLength[month - 1]) {
     return [false, "Invalid Day"];
   }
   return true;
 }
 async function createUserPass(ssn) {
-  console.log(ssn);
-  if (ssn) {
+  if (ssn || ssn !== "") {
     const hashedSSN = await bcrypt.hash(ssn, 10);
     const pw = ssn.split("-")[2];
     const hashedPassword = await bcrypt.hash(pw, 10);

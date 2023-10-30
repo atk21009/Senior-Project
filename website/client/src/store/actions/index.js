@@ -1,6 +1,12 @@
 import axios from "axios";
-import { FETCH_USER, FETCH_ORG, FETCH_EMP, FETCH_DATA_ORG } from "./types";
-import jwt from "jwt-decode";
+import {
+  FETCH_USER,
+  FETCH_ORG,
+  FETCH_EMP,
+  FETCH_DATA_ORG,
+  CREATE_EMP_RES,
+} from "./types";
+import { jwtDecode } from "jwt-decode";
 
 // Authorization Actions ----------------------------------------------------
 export const fetchUser = () => async (dispatch) => {
@@ -48,7 +54,9 @@ export const createOrganization = (data) => async (dispatch) => {
     OrgStore(res, dispatch);
   });
 };
-export const updateOrganization = () => async (dispatch) => {};
+export const updateOrganization = (data) => async (dispatch) => {
+  console.log(data);
+};
 export const viewOrganization = (data) => async (dispatch) => {
   await axios.get("/api/view-org", { params: data }).then((res) => {
     dispatch({ type: FETCH_ORG, payload: res });
@@ -72,7 +80,9 @@ export const createEmployee = (data) => async (dispatch) => {
   });
 };
 export const createEmployees = (data) => async (dispatch) => {
-  axios.post("/api/create-employees", data);
+  await axios.post("/api/create-employees", data).then((res) => {
+    dispatch({ type: CREATE_EMP_RES, payload: res });
+  });
 };
 export const viewEmployees = () => async (dispatch) => {
   const token = localStorage.getItem("OrgToken");
@@ -87,7 +97,7 @@ export const viewEmployees = () => async (dispatch) => {
 // Store Functions ----------------------------------------------------
 function store(res, dispatch) {
   const token = res.data.accessToken;
-  const user = jwt(token);
+  const user = jwtDecode(token);
 
   localStorage.setItem("token", token);
   window.location.href = "/dashboard";

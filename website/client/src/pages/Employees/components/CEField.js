@@ -17,6 +17,7 @@ export default function CEFIELD({
     e.classList.remove("error");
     e.classList.add("no-error");
   }
+  const required = ["fname", "lname", "email", "en"];
 
   function ssnCheck(e) {
     const insert = e.nativeEvent.inputType === "insertText";
@@ -95,6 +96,20 @@ export default function CEFIELD({
           id={id}
           key={label + "1"}
           onInput={(e) => hrCheck(e)}
+        />
+      </>
+    );
+  } else if (required.includes(id)) {
+    return (
+      <>
+        <label key={label}>{label}*</label>
+        <input
+          {...input}
+          className="inputField no-error"
+          type={type}
+          placeholder={(touched && error) || placeholder}
+          id={id}
+          key={label + "1"}
         />
       </>
     );

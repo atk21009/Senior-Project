@@ -11,6 +11,7 @@ import CreateOrganization from "./Organization/CreateOrganization";
 import Organization from "./Organization";
 import Employees from "./Employees";
 import Settings from "./Settings";
+import EditOrganization from "./Organization/EditOrganization";
 
 const pages = [
   {
@@ -64,6 +65,10 @@ const pages = [
   {
     component: Settings,
     path: "/settings",
+  },
+  {
+    component: EditOrganization,
+    path: "/edit-organization",
   },
 ];
 

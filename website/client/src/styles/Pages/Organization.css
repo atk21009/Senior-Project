@@ -31,6 +31,8 @@
   justify-content: center;
 }
 .Org-fields-label {
+  display: flex;
+  flex-direction: column;
   width: 80%;
   color: var(--primary-1);
   font-size: 24px;

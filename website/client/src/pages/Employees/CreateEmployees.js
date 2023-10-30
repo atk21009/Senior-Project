@@ -5,31 +5,16 @@ import DashboardNav from "../../components/DashboardNav";
 import CEForm from "./components/CEForm";
 import * as actions from "../../store/actions";
 
-function csvLabels() {
-  const labels = [
-    "First Name",
-    "Last Name",
-    "Email address",
-    "Phone Number",
-    "Address",
-    "SSN",
-    "Office Number",
-    "Position",
-    "Hourly Rate",
-    "Birth Date",
-  ];
-
-  return labels.map((e) => {
-    return (
-      <span key={e}>
-        {e}
-        {e === "Birth Date" ? <></> : <span>, </span>}
-      </span>
-    );
-  });
-}
+import Employees_template from "./Employees_template.csv";
 
 class CreateEmployees extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: null,
+    };
+  }
+
   uploadFile() {
     const file = document.getElementById("file_name").files[0];
     const label = document.getElementById("file_label");
@@ -49,6 +34,65 @@ class CreateEmployees extends Component {
     formData.append("file", file);
     formData.append("OrgToken", token);
     props.props.createEmployees(formData);
+    props.setState({ show: true });
+  };
+
+  closeResponse() {
+    this.setState({ show: false });
+    window.location.href = "/employees";
+  }
+
+  renderResponse = () => {
+    if (this.props.createEmp) {
+      if (this.props.createEmp.status === 206 && this.state.show) {
+        return (
+          <div className="CE-response-ctnr">
+            <i
+              class="fa-solid fa-xmark CE-response-close"
+              onClick={() => this.closeResponse()}
+            ></i>
+            <div className="CE-response-title">Errors</div>
+            <table className="CE-response-table">
+              <tbody>
+                {this.props.createEmp.data.map((e) => {
+                  return (
+                    <tr>
+                      <td>
+                        Employee: {e.firstname} {e.lastname}
+                      </td>
+
+                      <td>Employee Number: {e.employeeNumber}</td>
+                      <td>
+                        Error:{" "}
+                        {e.error.map((e) => {
+                          return e;
+                        })}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        );
+      } else if (this.props.createEmp.status === 201 && this.state.show) {
+        return (
+          <div className="CE-response-ctnr">
+            <div>
+              <i
+                class="fa-solid fa-xmark CE-response-close"
+                onClick={() => this.closeResponse()}
+              ></i>
+              <div className="CE-response-title success-emp-creation">
+                All employees were successfully created
+              </div>
+            </div>
+          </div>
+        );
+      }
+    } else {
+      return <></>;
+    }
   };
 
   render() {
@@ -57,10 +101,10 @@ class CreateEmployees extends Component {
         <div className="dashboard">
           <DashboardNav />
           <div className="CE-page">
+            {this.renderResponse()}
             <div className="CE-ctnr">
               <div className="CE-card">
                 <div className="CE-subtitle">Create An Employee</div>
-
                 {<CEForm onSubmit={this.props.createEmployee} />}
               </div>
               <div className="CE-card">
@@ -69,11 +113,19 @@ class CreateEmployees extends Component {
                   <div className="CE-card-desc">
                     We provided ease of access to create employees. You can
                     simply upload a CSV file with all of the information of your
-                    employees. From that we will automatically set up all of the
-                    accounts for your employees. We ask you to follow the file
-                    structure below.
+                    employees. From that, we will automatically set up all of
+                    the accounts for your employees. We ask you to follow the
+                    file structure below. Below we have provided a template of
+                    how the file should be structured.
                   </div>
-                  <div className="CE-card-label">{csvLabels()}</div>
+                  <a
+                    href={Employees_template}
+                    download={"Employees_template.csv"}
+                    className="CE-template-download"
+                  >
+                    <span>Download Template</span>
+                    <i class="fa-solid fa-circle-down"></i>
+                  </a>
                   <form
                     className="CE-Form-Employees"
                     onSubmit={this.handleFormSubmit(this)}
@@ -108,8 +160,8 @@ class CreateEmployees extends Component {
   }
 }
 
-function mapStateToProps({ auth, org }) {
-  return { auth, org };
+function mapStateToProps({ auth, org, createEmp }) {
+  return { auth, org, createEmp };
 }
 
 export default connect(mapStateToProps, actions)(CreateEmployees);

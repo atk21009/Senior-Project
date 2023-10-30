@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "website": "npm run client --prefix website",
-    "build-app": "npm run build --prefix application",
     "app": "npm run start --prefix application",
-    "server": "npm run server --prefix website",
+    "build-app": "npm run build --prefix application",
+    "website": "npm run start --prefix website/client",
+    "server": "npm run server --prefix website/server",
     "start": "cd website/server && npm install && npm run start",
     "postinstall": "npm install --prefix website/client && npm run build --prefix website/client"
   },

@@ -3,3 +3,4 @@ import "./CreateOrganization.css";
 import "./Footer.css";
 import "./Header.css";
 import "./LoadingScreen.css";
+import "./UpdateOrganization.css";

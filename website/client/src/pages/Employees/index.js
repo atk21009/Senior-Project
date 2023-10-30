@@ -8,26 +8,23 @@ import LoadingScreen from "../../components/LoadingScreen";
 import * as actions from "../../store/actions";
 
 function renderOT(e) {
-  let emp = [];
   const empData = e.props.emp.data;
-  empData.map((employee) => {
-    if (parseInt(employee.hoursWorked) > 40) {
-      emp.push(
-        <tr key={employee.email + " "}>
-          <td>{employee.firstname}</td>
-          <td>{employee.lastname}</td>
-          <td>{employee.email}</td>
-          <td>
-            {employee.clockStatus === true ? "Clocked In" : "Clocked Out"}
-          </td>
-          <td>{employee.hoursWorked} Hours</td>
-          <td>{employee.employeeNumber}</td>
-          <td>{employee.office || "-"}</td>
-          <td>{employee.position || "-"}</td>
-          <td>{employee.phonenumber || "-"}</td>
-        </tr>
-      );
-    }
+  const emp = empData.map((employee) => {
+    return parseInt(employee.hoursWorked) >= 40 ? (
+      <tr key={employee.email + " "}>
+        <td>{employee.firstname}</td>
+        <td>{employee.lastname}</td>
+        <td>{employee.email}</td>
+        <td>{employee.clockStatus === true ? "Clocked In" : "Clocked Out"}</td>
+        <td>{employee.hoursWorked} Hours</td>
+        <td>{employee.employeeNumber}</td>
+        <td>{employee.office || "-"}</td>
+        <td>{employee.position || "-"}</td>
+        <td>{employee.phonenumber || "-"}</td>
+      </tr>
+    ) : (
+      <></>
+    );
   });
 
   return (

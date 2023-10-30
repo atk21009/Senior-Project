@@ -44,7 +44,7 @@ function renderOrganization(e) {
         <div className="dashboard-card-title">{company}</div>
         <div className="dshbrd-fields-ctnr">{CompanyData}</div>
         <div className="dashboard-edit-ctnr">
-          <Link className="dashboard-edit-link">
+          <Link className="dashboard-edit-link" to="/edit-organization">
             Edit Organization<i className="fa-solid fa-chevron-right"></i>
           </Link>
         </div>

@@ -62,11 +62,20 @@ function renderData(e) {
     const resData = [cost, res.clockedIn, res.clockedOut, res.Visitor, res.OT];
     let data = [];
     let headers = [
-      "Cost",
-      "Clocked In",
-      "Clocked Out",
+      "Employees Cost",
+      <>
+        <span>Employees</span>
+        <span>Clocked In</span>
+      </>,
+      <>
+        <span>Employees</span>
+        <span>Clocked Out</span>
+      </>,
       "Visitors",
-      "Close to OT",
+      <>
+        <span>Employees</span>
+        <span>Overtime</span>
+      </>,
     ];
     for (let i = 0; i < 5; i++) {
       data.push(

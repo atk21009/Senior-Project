@@ -29,13 +29,9 @@ const CEForm = (props) => {
 
   return (
     <>
-      <div className="CE-disclaimer">
-        ** All values are optional except for First name, Last name, Email, and
-        Employee Number. If you wish to not enter specific information just
-        leave the input empty. **
-      </div>
       <form onSubmit={handleSubmit} className="form-CE">
         {renderFields()}
+
         <div className="createEmp">
           <input type="submit" id="CE-Submit" value="Create Employee" />
         </div>

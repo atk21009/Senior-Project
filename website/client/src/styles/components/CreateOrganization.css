@@ -35,7 +35,7 @@
 
 .createOrg input {
   width: 70%;
-  background-color: var(--primary-6);
+  background-color: var(--primary-9);
   cursor: pointer;
   padding: 20px;
   font-size: 18px;
@@ -47,7 +47,7 @@
 }
 
 .createOrg input:hover {
-  background-color: var(--primary-7);
+  background-color: var(--primary-8);
 }
 
 .org-field {

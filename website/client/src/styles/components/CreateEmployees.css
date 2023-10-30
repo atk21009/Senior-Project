@@ -2,6 +2,7 @@
   display: grid;
   grid-template-rows: max-content auto;
   padding: 10px;
+  position: relative;
 }
 
 .CE-title {
@@ -190,4 +191,69 @@
 .CE-disclaimer {
   text-align: center;
   font-size: 14px;
+}
+
+/* Response Box */
+.CE-response-ctnr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-9);
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--primary-1);
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
+  z-index: 1;
+  padding: 30px 20px;
+}
+.CE-response-close {
+  font-size: 24px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  cursor: pointer;
+}
+.CE-response-title {
+  font-size: 24px;
+  font-weight: 600;
+}
+.success-emp-creation {
+  padding: 10px;
+}
+.CE-response-table {
+  padding: 10px;
+}
+
+.CE-response-table tbody tr {
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
+  gap: 20px;
+  padding: 10px;
+  border-bottom: 1px solid var(--gray-30);
+}
+
+/* CE Template Download */
+.CE-template-download {
+  display: flex;
+  padding: 10px;
+  font-size: 20px;
+  color: var(--primary-1);
+  text-decoration: none;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+}
+.CE-template-download i {
+  align-self: flex-end;
+}
+.CE-template-download:hover {
+  color: var(--primary-5);
+}
+.CE-template-download:hover span {
+  text-decoration: underline;
 }

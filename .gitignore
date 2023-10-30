@@ -4,5 +4,5 @@ website/server/config/prod.js
 website/server/config/dev.js
 website/client/.env.development
 website/client/.env.production
-website/server/.env.development
-website/server/.env.production
+
+website/server/.env

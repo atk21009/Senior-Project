@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 require("./models/User");
 
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();

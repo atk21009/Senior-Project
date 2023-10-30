@@ -111,7 +111,7 @@ module.exports = (app) => {
           clockedOut += 1;
         }
 
-        if (hw > 35) {
+        if (hw > 40) {
           OT += 1;
         }
       });

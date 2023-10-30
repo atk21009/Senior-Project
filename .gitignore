@@ -6,3 +6,4 @@ website/client/.env.development
 website/client/.env.production
 website/server/.env.development
 website/server/.env.production
+website/server/.env

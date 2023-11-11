@@ -8,3 +8,6 @@ website/server/.env.development
 website/server/.env.production
 
 website/server/.env
+
+.env
+application/out

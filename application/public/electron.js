@@ -1,33 +1,16 @@
 const { app, BrowserWindow, autoUpdater, dialog } = require("electron");
 const path = require("path");
 
-const server = "https://senior-project-nine.vercel.app/";
-const url = `${server}/update/${process.platform}/${app.getVersion()}`;
-autoUpdater.setFeedURL({ url });
+const server = "https://update.electronjs.org";
+const feed = `${server}/atk21009/senior-project/${process.platform}-${
+  process.arch
+}/${app.getVersion()}`;
+
+autoUpdater.setFeedURL(feed);
 
 setInterval(() => {
   autoUpdater.checkForUpdates();
-}, 60000);
-
-autoUpdater.on("update-downloaded", (event, releaseNotes, releaseName) => {
-  const dialogOpts = {
-    type: "info",
-    buttons: ["Restart", "Later"],
-    title: "Application Update",
-    message: process.platform === "win32" ? releaseNotes : releaseName,
-    detail:
-      "A new version has been downloaded. Restart the application to apply the updates.",
-  };
-
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall();
-  });
-});
-
-autoUpdater.on("error", (message) => {
-  console.error("There was a problem updating the application");
-  console.error(message);
-});
+}, 10 * 60 * 1000);
 
 let mainWindow;
 

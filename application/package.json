@@ -22,9 +22,11 @@
   },
   "scripts": {
     "build": "craco build",
+    "start-app": "craco start",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +53,7 @@
     "@electron-forge/maker-squirrel": "^6.4.2",
     "@electron-forge/maker-zip": "^6.4.2",
     "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
+    "@electron-forge/publisher-github": "^6.4.2",
     "electron": "^27.0.2",
     "electron-prebuilt-compile": "^8.2.0",
     "webpack-node-externals": "^3.0.0"

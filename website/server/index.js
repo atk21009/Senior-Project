@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 require("./models/User");
 
 if (process.env.NODE_ENV !== "production") {
@@ -10,7 +11,7 @@ if (process.env.NODE_ENV !== "production") {
 mongoose.connect(process.env.MONGODB_URI);
 
 const app = express();
-
+app.use(cors());
 app.use(bodyParser.json());
 
 require("./routes/authRoutes")(app);

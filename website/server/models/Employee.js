@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const { DateString } = require("../services/DateString");
 
 const employeeSchema = new Schema({
   firstname: {
@@ -56,8 +57,23 @@ const employeeSchema = new Schema({
     default: "$0",
   },
   hoursWorked: {
+    type: Array,
+    default: [
+      {
+        date: DateString,
+        monday: { hours: "0hr 0min", pay: "$0" },
+        tuesday: { hours: "0hr 0min", pay: "$0" },
+        wednesday: { hours: "0hr 0min", pay: "$0" },
+        thursday: { hours: "0hr 0min", pay: "$0" },
+        friday: { hours: "0hr 0min", pay: "$0" },
+        saturday: { hours: "0hr 0min", pay: "$0" },
+        sunday: { hours: "0hr 0min", pay: "$0" },
+      },
+    ],
+  },
+  hoursPayPeriod: {
     type: String,
-    default: 0,
+    default: "0hr 0min",
   },
   hireDate: {
     type: String,

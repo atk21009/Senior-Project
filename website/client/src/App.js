@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 // Import Pages
-import pages from "./pages";
+import { pages, authPages } from "./pages";
 
 // Import Styling
 import "./styles/Pages";
@@ -15,6 +15,7 @@ import "./styles/components";
 
 // import actions
 import * as actions from "./store/actions";
+import ProtectedRoute from "./store/utils/ProtectedRoute";
 
 function renderPages() {
   return pages.map((element) => {
@@ -25,6 +26,21 @@ function renderPages() {
         Component={element.component}
         key={element.path}
       />
+    );
+  });
+}
+
+function renderAuthPages(props) {
+  return authPages.map((element) => {
+    return (
+      <Route
+        exact
+        path={element.path}
+        element={<ProtectedRoute />}
+        key={element.path}
+      >
+        <Route exact path={element.path} Component={element.component} />
+      </Route>
     );
   });
 }
@@ -42,7 +58,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Header />
-        <Routes>{renderPages()}</Routes>
+        <Routes>
+          {renderPages()} {renderAuthPages(this)}
+        </Routes>
         <Footer />
       </BrowserRouter>
     );

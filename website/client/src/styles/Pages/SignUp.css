@@ -61,11 +61,11 @@
 }
 
 .error {
-  border: 1px solid #cb4154;
-  color: #cb4154;
+  border: 1px solid var(--error);
+  color: var(--error);
 }
 .error::placeholder {
-  color: #cb4154;
+  color: var(--error);
 }
 .no-error::placeholder {
   color: var(--primary-3);

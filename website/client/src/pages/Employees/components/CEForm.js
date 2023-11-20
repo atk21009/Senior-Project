@@ -40,20 +40,26 @@ const CEForm = (props) => {
   );
 };
 
+function isNumeric(value) {
+  return /^-?\d+$/.test(value);
+}
+
 function validate(values) {
   const errors = {};
 
   if (!values["firstname"]) {
-    errors["firstname"] = "Please enter a value";
+    errors["firstname"] = " - Please enter a value";
   }
   if (!values["lastname"]) {
-    errors["lastname"] = "Please enter a value";
+    errors["lastname"] = " - Please enter a value";
   }
   if (!values["email"]) {
-    errors["email"] = "Please enter a value";
+    errors["email"] = " - Please enter a value";
   }
   if (!values["empNum"]) {
-    errors["empNum"] = "Please enter a value";
+    errors["empNum"] = " - Please enter a value";
+  } else if (!isNumeric(values["empNum"])) {
+    errors["empNum"] = " - Must only contain numbers";
   }
 
   return errors;

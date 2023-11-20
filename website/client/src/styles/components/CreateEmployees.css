@@ -19,7 +19,7 @@
 
 .CE-ctnr {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 3fr 2fr;
   grid-template-rows: 1fr;
   padding: 20px;
   gap: 20px;
@@ -191,6 +191,10 @@
 .CE-disclaimer {
   text-align: center;
   font-size: 14px;
+}
+
+.touched-err {
+  color: var(--clock-out);
 }
 
 /* Response Box */

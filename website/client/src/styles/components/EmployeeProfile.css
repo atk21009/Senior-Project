@@ -1,0 +1,201 @@
+.Emp-Profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+.Emp-Profile-Card {
+  width: 80%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/* Profile Data */
+.Emp-Profile-Data {
+  background-color: var(--primary-9);
+  border-radius: 10px;
+  border: 1px solid var(--gray-27);
+  align-items: center;
+}
+.Emp-Profile-Title {
+  width: 100%;
+  padding: 0px 20px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  border-bottom: 1px solid var(--gray-27);
+  position: relative;
+}
+.EP-Data-Test {
+  width: auto;
+}
+.EP-Data-Ctnr {
+  width: 60%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 50px;
+  padding: 0px 30px;
+}
+.EP-Data-Set {
+  width: max-content;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+.EPD-Label {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.EPD-Data {
+  font-size: 1.1rem;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.EP-disclaimer {
+  padding-top: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--gray-15);
+}
+
+/* Pay Stubs*/
+.Emp-Paystub-Ctnr {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.EP-Pay-Ctnr {
+  background-color: var(--primary-9);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--gray-27);
+}
+.EP-Pay-Title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  padding: 20px;
+  cursor: pointer;
+}
+.EP-Pay-Data {
+  font-size: 1.1rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.EP-Paystub {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 5px;
+  padding: 10px 30px;
+}
+.EP-Paystub:nth-child(2n) {
+  background-color: var(--gray-36);
+}
+
+.EPP-Date {
+  font-size: 1.3rem;
+  font-weight: 500;
+  padding-right: 10px;
+}
+.EPP-Ctnr {
+  display: flex;
+  align-items: flex-end;
+}
+.EPP-Data {
+  padding-right: 10px;
+  display: flex;
+  align-items: flex-end;
+}
+.EPD-Data-Clickable {
+  cursor: pointer;
+}
+.EPP-Label {
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  font-weight: 500;
+  padding: 0px 10px;
+  border-left: 2px solid var(--gray-27);
+}
+/* Toggle Collapsable */
+
+.Paystub-active,
+.Paystub-collapsible:hover {
+  background-color: var(--gray-35);
+}
+.EP-Paystub-active {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Clock Status */
+.ClockedOut {
+  width: max-content;
+  color: var(--clock-out);
+  border: 1px solid var(--clock-out);
+  border-radius: 7px;
+  padding: 1px 10px;
+  text-align: center;
+}
+.ClockedIn {
+  width: max-content;
+  color: var(--clock-in);
+  border: 1px solid var(--clock-in);
+  border-radius: 7px;
+  padding: 1px 10px;
+  text-align: center;
+}
+
+/* Update Input and Buttons */
+.Emp-Data-Input {
+  height: auto;
+  background-color: transparent;
+  border: 0;
+  font-size: 1.1rem;
+  font-weight: 400;
+  border-bottom: 1px solid var(--gray-25);
+  padding: 0;
+  margin: 0;
+}
+
+.Emp-Data-Input:focus {
+  outline: 0;
+}
+
+.Emp-Data-Btn-Ctnr {
+  display: flex;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  gap: 10px;
+}
+.Emp-Data-Btn {
+  padding: 7px 20px;
+  border: 2px solid;
+  background-color: transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.Emp-Data-Cancel {
+  border-color: var(--error);
+  color: var(--error);
+}
+.Emp-Data-Save {
+  border-color: var(--clock-in);
+  color: var(--clock-in);
+}

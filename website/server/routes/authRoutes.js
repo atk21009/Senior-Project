@@ -29,7 +29,7 @@ module.exports = (app) => {
         res.status(200).json({ accessToken });
       } else {
         res.status(401);
-        res.send("Email or password is not valid");
+        res.send("Invalid email or password");
       }
     }
   });
@@ -39,7 +39,7 @@ module.exports = (app) => {
 
     if (!firstname || !lastname || !email || !password || !confirmPassword) {
       res.status(400);
-      res.send("All fields are mandatory");
+      res.send("All fields are required");
     } else {
       if (password != confirmPassword) {
         res.status(400);
@@ -106,6 +106,25 @@ module.exports = (app) => {
           }
         }
       });
+    }
+  });
+
+  // Prompt Pass
+  app.post("/api/prompt-pass", async (req, res) => {
+    const { Password, id } = req.body;
+
+    if (!Password || !id) {
+      res.status(400);
+      res.send("Password is required");
+    } else {
+      const user = await User.findById(id, { password: 1 });
+
+      if (user && (await bcrypt.compare(Password, user.password))) {
+        res.sendStatus(202);
+      } else {
+        res.status(401);
+        res.send("Password is invalid");
+      }
     }
   });
 };

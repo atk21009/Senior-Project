@@ -2,6 +2,12 @@ const Employee = require("../models/Employee");
 const Organization = require("../models/Organization");
 const User = require("../models/User");
 
+function date() {
+  var today = new Date();
+  today.setDate(today.getDate() + ((0 - 1 - today.getDay() + 7) % 7) + 1);
+  return today;
+}
+
 module.exports = (app) => {
   // create org
   app.post("/api/create-org", async (req, res) => {
@@ -20,12 +26,13 @@ module.exports = (app) => {
           teir = "Free";
         }
         const user = await User.findById({ _id });
-
+        const payPeriod = date();
         const Org = new Organization({
           company,
           teir,
           location,
           owner: user.firstname + " " + user.lastname,
+          payPeriod,
         });
 
         if (Org) {
@@ -43,23 +50,31 @@ module.exports = (app) => {
 
   // update org
   app.post("/api/update-org", async (req, res) => {
-    const { company, teir, location, owner, admin, hr, _id } = req.body;
-    try {
-      await Organization.findByIdAndUpdate(_id, {
-        company,
-        teir,
-        location,
-        owner,
-        admin,
-        hr,
-      });
-    } catch (err) {
-      res.status(400);
-      res.send("Update error occured");
-    }
-    res.send("Successfully Updated");
+    const { company, location, admin, hr, _id } = req.body;
 
-    console.log("Finished");
+    if (!company || !location || !admin || !hr || !_id) {
+      res.status(400);
+      res.send("All inputs required");
+    } else {
+      const exists = await Organization.findOne({ company });
+      if (exists) {
+        res.status(400);
+        res.send("Company Already Exists");
+      } else {
+        try {
+          await Organization.findByIdAndUpdate(_id, {
+            company,
+            location,
+            admin,
+            hr,
+          });
+          res.send("Successfully Updated");
+        } catch (err) {
+          res.status(400);
+          res.send("Update error occured");
+        }
+      }
+    }
   });
 
   // fetch org
@@ -76,9 +91,33 @@ module.exports = (app) => {
 
   // delete org
   app.post("/api/delete-org", async (req, res) => {
-    const { _id } = req.body;
-    await Organization.findByIdAndDelete(_id);
-    res.send("Organization Deleted");
+    const { auth_id, Org_id } = req.body;
+
+    if (!auth_id || !Org_id) {
+      res.status(400);
+      res.send("An error occured while trying to delete organization");
+    } else {
+      const user = await User.findById(auth_id);
+      const org = await Organization.findById(Org_id);
+      const emp = await Employee.find({ company: Org_id });
+
+      if (user && org) {
+        try {
+          await User.findByIdAndUpdate(auth_id, { organization: "" });
+          await Organization.findByIdAndDelete(Org_id);
+          if (emp) {
+            emp.forEach(async (e) => {
+              await Employee.findByIdAndDelete(e.id);
+            });
+          }
+          res.status(200);
+          res.send("Organization Successfully deleted");
+        } catch (e) {
+          res.status(400);
+          res.send("Error occured while deleting organization");
+        }
+      }
+    }
   });
 
   app.get("/api/org-data", async (req, res) => {
@@ -87,7 +126,7 @@ module.exports = (app) => {
     const emp = await Employee.find(
       { company: OrgToken },
       {
-        hoursWorked: 1,
+        hoursPayPeriod: 1,
         hourlyRate: 1,
         clockStatus: 1,
       }
@@ -100,12 +139,18 @@ module.exports = (app) => {
     if (emp) {
       emp.forEach((element) => {
         const rate = parseFloat(element.hourlyRate.slice(1));
-        const hw = parseInt(element.hoursWorked);
-        const clockStatus = element.clockStatus === "true";
+        const hw = element.hoursPayPeriod.split(" ");
+        const clockStatus = element.clockStatus;
 
-        cost += rate * hw;
+        let hrWrk = hw[0].replace("hr", "");
+        let minWrk = hw[1].replace("min", "");
 
-        if (clockStatus === "true") {
+        hrWrk = parseInt(hrWrk) * rate;
+        minWrk = (parseInt(minWrk) / 60) * rate;
+
+        cost += hrWrk + minWrk;
+
+        if (clockStatus !== "false") {
           clockedIn += 1;
         } else {
           clockedOut += 1;

@@ -30,6 +30,10 @@ const organizationSchema = new Schema({
       required: true,
     },
   ],
+  payPeriod: {
+    type: Date,
+    required: true,
+  },
 });
 
 const Org = mongoose.model("organization", organizationSchema);

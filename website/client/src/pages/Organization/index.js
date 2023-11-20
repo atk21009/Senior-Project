@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 import DashboardNav from "../../components/DashboardNav";
-import LoadingScreen from "../../components/LoadingScreen";
 
 import * as actions from "../../store/actions";
 
@@ -79,7 +78,7 @@ function renderData(e) {
     ];
     for (let i = 0; i < 5; i++) {
       data.push(
-        <div className="Org-fields" key={headers[i]}>
+        <div className="Org-fields" key={resData[i] + i}>
           <div className="Org-fields-label">{headers[i]}</div>
           <div className="Org-fields-data">{resData[i]}</div>
         </div>
@@ -112,29 +111,8 @@ function renderContent(e) {
 }
 
 class Organization extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      content: <LoadingScreen />,
-    };
-  }
-
-  async componentDidMount() {
-    if (!this.props.org || !this.props.orgData) {
-      const token = localStorage.getItem("OrgToken");
-      const org = await this.props.viewOrganization({ _id: token });
-      const orgData = await this.props.getOrganizationData();
-
-      Promise.all([token, org, orgData]).then(() => {
-        this.setState({ content: renderContent(this) });
-      });
-    } else {
-      this.setState({ content: renderContent(this) });
-    }
-  }
-
   render() {
-    return this.state.content;
+    return renderContent(this);
   }
 }
 

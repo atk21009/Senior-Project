@@ -26,7 +26,6 @@ class CreateEmployees extends Component {
   }
 
   handleFormSubmit = (props) => (e) => {
-    console.log(props);
     e.preventDefault();
     const file = document.getElementById("file_name").files[0];
     const token = localStorage.getItem("OrgToken");
@@ -80,7 +79,7 @@ class CreateEmployees extends Component {
           <div className="CE-response-ctnr">
             <div>
               <i
-                class="fa-solid fa-xmark CE-response-close"
+                className="fa-solid fa-xmark CE-response-close"
                 onClick={() => this.closeResponse()}
               ></i>
               <div className="CE-response-title success-emp-creation">
@@ -124,7 +123,7 @@ class CreateEmployees extends Component {
                     className="CE-template-download"
                   >
                     <span>Download Template</span>
-                    <i class="fa-solid fa-circle-down"></i>
+                    <i className="fa-solid fa-circle-down"></i>
                   </a>
                   <form
                     className="CE-Form-Employees"

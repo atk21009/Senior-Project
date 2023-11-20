@@ -64,13 +64,20 @@ export default function CEFIELD({
   if (id === "ss") {
     return (
       <>
-        <label key={label}>{label}</label>
+        <label key={label}>
+          <span>{label}</span>
+          {touched && error ? (
+            <span className="touched-err">{touched && error}</span>
+          ) : (
+            ""
+          )}
+        </label>
         <div>
           <input
             {...input}
             className="inputField no-error"
             type={type}
-            placeholder={(touched && error) || placeholder}
+            placeholder={placeholder}
             id={id}
             key={label + "1"}
             onInput={(e) => ssnCheck(e)}
@@ -87,27 +94,63 @@ export default function CEFIELD({
   } else if (id === "hr") {
     return (
       <>
-        <label key={label}>{label}</label>
+        <label key={label}>
+          <span>{label}*</span>
+          {touched && error ? (
+            <span className="touched-err">{touched && error}</span>
+          ) : (
+            ""
+          )}
+        </label>
         <input
           {...input}
           className="inputField no-error"
           type={type}
-          placeholder={(touched && error) || placeholder}
+          placeholder={placeholder}
           id={id}
           key={label + "1"}
           onInput={(e) => hrCheck(e)}
         />
       </>
     );
-  } else if (required.includes(id)) {
+  } else if (id === "en") {
     return (
       <>
-        <label key={label}>{label}*</label>
+        <label key={label}>
+          <span>{label}*</span>
+          {touched && error ? (
+            <span className="touched-err">{touched && error}</span>
+          ) : (
+            ""
+          )}
+        </label>
         <input
           {...input}
           className="inputField no-error"
           type={type}
-          placeholder={(touched && error) || placeholder}
+          placeholder={placeholder}
+          id={id}
+          key={label + "1"}
+          maxLength={8}
+        />
+      </>
+    );
+  } else if (required.includes(id)) {
+    return (
+      <>
+        <label key={label}>
+          <span>{label}*</span>
+          {touched && error ? (
+            <span className="touched-err">{touched && error}</span>
+          ) : (
+            ""
+          )}
+        </label>
+        <input
+          {...input}
+          className="inputField no-error"
+          type={type}
+          placeholder={placeholder}
           id={id}
           key={label + "1"}
         />
@@ -116,12 +159,19 @@ export default function CEFIELD({
   } else {
     return (
       <>
-        <label key={label}>{label}</label>
+        <label key={label}>
+          <span>{label}</span>
+          {touched && error ? (
+            <span className="touched-err">{touched && error}</span>
+          ) : (
+            ""
+          )}
+        </label>
         <input
           {...input}
           className="inputField no-error"
           type={type}
-          placeholder={(touched && error) || placeholder}
+          placeholder={placeholder}
           id={id}
           key={label + "1"}
         />

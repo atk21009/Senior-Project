@@ -11,9 +11,9 @@ import CreateOrganization from "./Organization/CreateOrganization";
 import Organization from "./Organization";
 import Employees from "./Employees";
 import Settings from "./Settings";
-import EditOrganization from "./Organization/EditOrganization";
+import EmployeeProfile from "./Employees/Employee/EmployeeProfile";
 
-const pages = [
+export const pages = [
   {
     component: Landing,
     path: "/",
@@ -42,6 +42,9 @@ const pages = [
     component: Support,
     path: "/support",
   },
+];
+
+export const authPages = [
   {
     component: Dashboard,
     path: "/dashboard",
@@ -67,9 +70,7 @@ const pages = [
     path: "/settings",
   },
   {
-    component: EditOrganization,
-    path: "/edit-organization",
+    component: EmployeeProfile,
+    path: "/employee/:employee_number",
   },
 ];
-
-export default pages;

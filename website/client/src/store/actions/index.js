@@ -1,42 +1,37 @@
-import axios from "axios";
 import {
-  FETCH_USER,
   FETCH_ORG,
   FETCH_EMP,
+  FETCH_EMPS,
   FETCH_DATA_ORG,
   CREATE_EMP_RES,
+  CREATE_EMPS_RES,
+  UPDATE_EMP,
 } from "./types";
-import { jwtDecode } from "jwt-decode";
+import {
+  AuthPost,
+  CO,
+  EmpFetch,
+  EmpsFetch,
+  FetchUser,
+  OrgData,
+  createEmps,
+  UpdateEmp,
+} from "./Fetch";
+
+import { saveData, deleteEmp } from "../utils/EmployeeProfileUtils";
+import axios from "axios";
+import ErrMessage from "../utils/ErrMessage";
+import { DeleteOrg, saveOrgData } from "../../pages/Dashboard/EditOrg";
 
 // Authorization Actions ----------------------------------------------------
 export const fetchUser = () => async (dispatch) => {
-  try {
-    if (localStorage.getItem("token")) {
-      const token = localStorage.getItem("token");
-      const res = await axios.get("/api/currentUser", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (res.data.organization && !localStorage.getItem("OrgToken")) {
-        localStorage.setItem("OrgToken", res.data.organization);
-      }
-
-      dispatch({ type: FETCH_USER, payload: res.data });
-    }
-  } catch (e) {
-    window.location.href = "/";
-    localStorage.removeItem("token");
-    localStorage.removeItem("OrgToken");
-  }
+  await FetchUser(dispatch);
 };
 export const signup = (data) => async (dispatch) => {
-  await axios.post("/api/register", data).then((res) => {
-    store(res, dispatch);
-  });
+  await AuthPost("/api/register", data, dispatch);
 };
 export const login = (data) => async (dispatch) => {
-  await axios.post("/api/login", data).then((res) => {
-    store(res, dispatch);
-  });
+  await AuthPost("/api/login", data, dispatch);
 };
 export const logout = () => async (dispatch) => {
   window.location.href = "/";
@@ -44,73 +39,89 @@ export const logout = () => async (dispatch) => {
   localStorage.removeItem("OrgToken");
 };
 
+export const promptPass = (pass, _this, type, data) => async (dispatch) => {
+  const pw = { Password: pass, id: _this.props.auth.id };
+  document.getElementById("PromptPass").remove();
+  try {
+    await axios.post("/api/prompt-pass", pw).then((res) => {
+      const { status } = res;
+      if (status === 202 && type === "delete") {
+        deleteEmp(_this);
+      } else if (status === 202 && type === "update") {
+        saveData(_this, data);
+      } else if (status === 202 && type === "updateOrg") {
+        saveOrgData(_this, data);
+      } else if (status === 202 && type === "delOrg") {
+        DeleteOrg(_this, data);
+      }
+    });
+  } catch (e) {
+    ErrMessage(e);
+  }
+};
+
 // Organization Actions ----------------------------------------------------
 export const createOrganization = (data) => async (dispatch) => {
-  const token = localStorage.getItem("token");
-  const res = await axios.get("/api/currentUser", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  await axios.post("/api/create-org", { res, data }).then((res) => {
-    OrgStore(res, dispatch);
-  });
+  await CO("/api/create-org", data, dispatch);
 };
 export const updateOrganization = (data) => async (dispatch) => {
-  console.log(data);
+  try {
+    await axios.post("/api/update-org", data).then((res) => {
+      window.location.href = "/dashboard";
+    });
+  } catch (e) {
+    ErrMessage(e);
+  }
 };
 export const viewOrganization = (data) => async (dispatch) => {
-  await axios.get("/api/view-org", { params: data }).then((res) => {
-    dispatch({ type: FETCH_ORG, payload: res });
-  });
+  await OrgData("/api/view-org", data, dispatch, FETCH_ORG);
 };
-export const deleteOrganization = () => async (dispatch) => {};
+export const deleteOrganization = (data) => async (dispatch) => {
+  try {
+    await axios.post("/api/delete-org", data).then((res) => {
+      localStorage.removeItem("OrgToken");
+      window.location.href = "/dashboard";
+    });
+  } catch (e) {
+    ErrMessage(e);
+  }
+};
 export const getOrganizationData = () => async (dispatch) => {
   const OrgToken = localStorage.getItem("OrgToken");
 
-  await axios.get("/api/org-data", { params: { OrgToken } }).then((res) => {
-    dispatch({ type: FETCH_DATA_ORG, payload: res });
-  });
+  await OrgData("/api/org-data", { OrgToken }, dispatch, FETCH_DATA_ORG);
 };
 
 // Employee Actions ----------------------------------------------------
 export const createEmployee = (data) => async (dispatch) => {
   const OrgToken = localStorage.getItem("OrgToken");
-
-  await axios.post("/api/create-emp", { OrgToken, data }).then((res) => {
-    EmpStore(res, dispatch);
-  });
+  await createEmps(
+    "/api/create-emp",
+    { OrgToken, data },
+    dispatch,
+    CREATE_EMP_RES
+  );
 };
 export const createEmployees = (data) => async (dispatch) => {
-  await axios.post("/api/create-employees", data).then((res) => {
-    dispatch({ type: CREATE_EMP_RES, payload: res });
-  });
+  await createEmps("/api/create-employees", data, dispatch, CREATE_EMPS_RES);
 };
 export const viewEmployees = () => async (dispatch) => {
-  const token = localStorage.getItem("OrgToken");
-
-  await axios.get("/api/view-employees", { params: { token } }).then((res) => {
-    dispatch({ type: FETCH_EMP, payload: res });
-  });
+  await EmpsFetch("/api/view-employees", dispatch, FETCH_EMPS);
+};
+export const viewEmployee = (data) => async (dispatch) => {
+  await EmpFetch("/api/view-employee", data, dispatch, FETCH_EMP);
+};
+export const updateEmployee = (data) => async (dispatch) => {
+  await UpdateEmp("/api/update-employee", data, dispatch, UPDATE_EMP).then();
+};
+export const deleteEmployee = (data) => async (dispatch) => {
+  try {
+    await axios.post("/api/delete-employee", data).then((res) => {
+      window.location.href = "/employees";
+    });
+  } catch (e) {
+    ErrMessage(e);
+  }
 };
 
 // Visitor Actions ----------------------------------------------------
-
-// Store Functions ----------------------------------------------------
-function store(res, dispatch) {
-  const token = res.data.accessToken;
-  const user = jwtDecode(token);
-
-  localStorage.setItem("token", token);
-  window.location.href = "/dashboard";
-  dispatch({ type: FETCH_USER, payload: { token, user } });
-}
-function OrgStore(res, dispatch) {
-  const OrgToken = res.data._id;
-  const Org = res.data;
-  localStorage.setItem("OrgToken", OrgToken);
-  window.location.href = "/dashboard";
-  dispatch({ type: FETCH_ORG, payload: { OrgToken, Org } });
-}
-function EmpStore(res, dispatch) {
-  window.location.href = "/dashboard";
-  dispatch({ type: FETCH_EMP, payload: { res } });
-}

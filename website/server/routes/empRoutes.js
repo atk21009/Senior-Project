@@ -325,15 +325,17 @@ module.exports = (app) => {
         // Get the sum of all the hours
         let totalHoursWorked = [0, 0];
         for (const [key, value] of Object.entries(currWeek)) {
-          const hrs = value.hours;
-          const val = hrs.split(" ");
-          const strHr = val[0].replace("hr", "");
-          const strMin = val[1].replace("min", "");
-          const valHr = parseInt(strHr);
-          const valMin = parseInt(strMin);
+          if (key !== "date") {
+            const hrs = value.hours;
+            const val = hrs.split(" ");
+            const strHr = val[0].replace("hr", "");
+            const strMin = val[1].replace("min", "");
+            const valHr = parseInt(strHr);
+            const valMin = parseInt(strMin);
 
-          totalHoursWorked[0] += valHr;
-          totalHoursWorked[1] += valMin;
+            totalHoursWorked[0] += valHr;
+            totalHoursWorked[1] += valMin;
+          }
         }
 
         // Format total hours string

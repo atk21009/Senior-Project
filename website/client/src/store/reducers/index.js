@@ -6,6 +6,7 @@ import empReducer from "./empReducer";
 import orgDataReducer from "./orgDataReducer";
 import createEmpReducer from "./createEmpReducer";
 import empsReducer from "./empsReducer";
+import visitorReducer from "./visitorReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -15,4 +16,5 @@ export default combineReducers({
   emps: empsReducer,
   orgData: orgDataReducer,
   createEmp: createEmpReducer,
+  visitors: visitorReducer,
 });

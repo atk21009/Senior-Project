@@ -6,6 +6,7 @@ import {
   CREATE_EMP_RES,
   CREATE_EMPS_RES,
   UPDATE_EMP,
+  FETCH_VISITORS,
 } from "./types";
 import {
   AuthPost,
@@ -21,7 +22,10 @@ import {
 import { saveData, deleteEmp } from "../utils/EmployeeProfileUtils";
 import axios from "axios";
 import ErrMessage from "../utils/ErrMessage";
-import { DeleteOrg, saveOrgData } from "../../pages/Dashboard/EditOrg";
+import {
+  DeleteOrg,
+  saveOrgData,
+} from "../../pages/Dashboard/components/EditOrg";
 
 // Authorization Actions ----------------------------------------------------
 export const fetchUser = () => async (dispatch) => {
@@ -125,3 +129,17 @@ export const deleteEmployee = (data) => async (dispatch) => {
 };
 
 // Visitor Actions ----------------------------------------------------
+export const fetchVisitors = () => async (dispatch) => {
+  const orgToken = localStorage.getItem("OrgToken");
+  if (orgToken) {
+    try {
+      await axios
+        .get("/api/view-visitors", { params: { orgToken } })
+        .then((res) => {
+          dispatch({ type: FETCH_VISITORS, payload: res.data });
+        });
+    } catch (e) {
+      ErrMessage(e);
+    }
+  }
+};

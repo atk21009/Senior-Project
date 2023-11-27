@@ -1,0 +1,109 @@
+.visitor-ctnr {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+.visitor-table {
+  display: flex;
+  height: 220px;
+  position: relative;
+  border: none;
+}
+.visitor-tbody {
+  width: 100%;
+  overflow-y: auto;
+}
+.visitor-tbody::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.visitor-tbody::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.visitor-tbody::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.visitor-tbody::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.visitor-table tr:nth-child(2n) {
+  background-color: var(--gray-36);
+}
+.visitor-header {
+  font-size: 1.1rem;
+  font-weight: 500;
+  position: sticky;
+  top: 0;
+  background-color: var(--primary-9);
+  z-index: 1;
+}
+.visitor-info {
+  height: auto;
+  display: grid;
+  width: 100%;
+  text-align: center;
+  grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid var(--gray-35);
+  padding: 3px;
+}
+.visitor-data {
+  height: auto;
+  font-size: 1rem;
+}
+
+/* .Emp-table {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-radius: 10px;
+    border: 1px solid var(--gray-30);
+    overflow: hidden;
+  }
+  
+  .Emp-table {
+    width: 100%;
+    display: grid;
+    position: relative;
+    border-radius: 10px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .Emp-table-headers {
+    background-color: var(--gray-20);
+    color: var(--primary-9);
+  }
+  .Emp-table-rows {
+    background-color: var(--primary-9);
+    border-bottom: 1px solid var(--gray-30);
+  }
+  
+  .Emp-table tr {
+    padding: 5px 0px;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    width: 100%;
+  }
+  .Emp-table tr:nth-child(2n) {
+    background-color: var(--gray-35);
+  }
+  .Emp-table-headers {
+    background-color: var(--gray-20);
+    color: var(--primary-9);
+  }
+  .Emp-table td,
+  .Emp-table th {
+    padding: 5px 10px;
+    border: none;
+    text-align: center;
+  } */

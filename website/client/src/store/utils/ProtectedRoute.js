@@ -27,8 +27,9 @@ class ProtectedRoute extends Component {
         const VO = await this.props.viewOrganization({ _id: token });
         const VE = await this.props.viewEmployees();
         const orgData = await this.props.getOrganizationData();
+        const visitors = await this.props.fetchVisitors();
 
-        Promise.all([auth, token, VO, VE, orgData]).then(() => {
+        Promise.all([auth, token, VO, VE, orgData, visitors]).then(() => {
           this.setState({ content: <Outlet /> });
         });
       } else {
@@ -44,8 +45,8 @@ class ProtectedRoute extends Component {
   }
 }
 
-function mapStateToProps({ auth, org, emps, orgData }) {
-  return { auth, org, emps, orgData };
+function mapStateToProps({ auth, org, emps, orgData, visitors }) {
+  return { auth, org, emps, orgData, visitors };
 }
 
 export default connect(mapStateToProps, actions)(ProtectedRoute);

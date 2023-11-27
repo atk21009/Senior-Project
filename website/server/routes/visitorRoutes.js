@@ -26,29 +26,60 @@ module.exports = (app) => {
 
   // view visitors
   app.get("/api/view-visitors", async (req, res) => {
-    const { _id } = req.body;
-    if (!_id) {
+    const { orgToken } = req.query;
+    if (!orgToken) {
       res.status(400);
       res.send("All fields are required");
     } else {
-      const visitors = await Visitor.find({ business: _id });
+      const visitors = await Visitor.find({ business: orgToken });
+      res.status(200);
       res.send(visitors);
     }
   });
 
   // delete visitors
   app.post("/api/delete-visitor", async (req, res) => {
-    const { firstname, lastname, _id } = req.body;
-    if (!firstname || !lastname || !_id) {
+    const { _id } = req.body;
+    if (!_id) {
       res.status(400);
       res.send("All fields are required");
     } else {
-      const visitors = await Visitor.findOneAndDelete({
-        business: _id,
-        firstname,
-        lastname,
-      });
-      res.send(visitors);
+      if (await Visitor.findById(_id)) {
+        try {
+          await Visitor.findByIdAndDelete(_id);
+          res.status(200);
+          res.send("Visitor successfully signed out");
+        } catch (e) {
+          res.status(400);
+          res.send("Error in signing out visitor");
+        }
+      } else {
+        res.status(404);
+        res.send("Visitor Not Found");
+      }
+    }
+  });
+
+  app.post("/api/delete-all-visitors", async (req, res) => {
+    const { orgToken } = req.body;
+    if (!orgToken) {
+      res.status(400);
+      res.send("All fields are required");
+    } else {
+      if (await Visitor.find({ business: orgToken })) {
+        try {
+          await Visitor.deleteMany({ business: orgToken });
+          res.status(200);
+          res.send("Visitor successfully signed out");
+        } catch (e) {
+          console.log(e);
+          res.status(400);
+          res.send("Error in signing out visitor");
+        }
+      } else {
+        res.status(404);
+        res.send("Visitor Not Found");
+      }
     }
   });
 };

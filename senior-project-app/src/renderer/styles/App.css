@@ -1,0 +1,91 @@
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
+:root {
+  --primary-1: rgba(21, 30, 47, 1);
+  --primary-2: #15202b;
+  --primary-3: #22303c;
+  --primary-4: #27374d;
+  --primary-5: #526d82;
+  --primary-6: #8899ac;
+  --primary-7: #9db2bf;
+  --primary-8: #dde6ed;
+  --primary-9: #ffffff;
+
+  --secondary-1: #263238;
+  --secondary-2: #37474f;
+  --secondary-3: #455a64;
+  --secondary-4: #546e7a;
+  --secondary-5: #607d8b;
+
+  --test: #1a2539;
+
+  --gray-1: #000000;
+  --gray-2: #080808;
+  --gray-3: #101010;
+  --gray-4: #181818;
+  --gray-5: #202020;
+  --gray-6: #282828;
+  --gray-7: #303030;
+  --gray-8: #383838;
+  --gray-9: #404040;
+  --gray-10: #484848;
+  --gray-11: #505050;
+  --gray-12: #585858;
+  --gray-13: #606060;
+  --gray-14: #686868;
+  --gray-15: #696969;
+  --gray-16: #707070;
+  --gray-17: #787878;
+  --gray-18: #808080;
+  --gray-19: #888888;
+  --gray-20: #909090;
+  --gray-21: #989898;
+  --gray-22: #a0a0a0;
+  --gray-23: #a8a8a8;
+  --gray-24: #a9a9a9;
+  --gray-25: #b0b0b0;
+  --gray-26: #b8b8b8;
+  --gray-27: #bebebe;
+  --gray-28: #c0c0c0;
+  --gray-29: #c8c8c8;
+  --gray-30: #d0d0d0;
+  --gray-31: #d3d3d3;
+  --gray-32: #d8d8d8;
+  --gray-33: #dcdcdc;
+  --gray-34: #e0e0e0;
+  --gray-35: #e8e8e8;
+  --gray-36: #f0f0f0;
+  --gray-37: #f5f5f5;
+  --gray-38: #f8f8f8;
+  --gray-39: #ffffff;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  color: black;
+  height: 100vh;
+  background-color: var(--gray-37);
+  font-family: sans-serif;
+  overflow-y: hidden;
+  margin: 0;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}

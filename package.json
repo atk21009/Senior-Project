@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "app": "npm run start --prefix application",
-    "build-app": "npm run build --prefix application",
+    "app": "npm run start --prefix senior-project-app",
+    "build-app": "npm run build --prefix senior-project-app",
     "website": "npm run start --prefix website/client",
     "server": "npm run server --prefix website/server",
     "start": "cd website/server && npm install && npm run start",

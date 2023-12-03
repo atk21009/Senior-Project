@@ -6,7 +6,7 @@ const routes = {
   currUser: `${window.electron.uri}api/currentUser`,
 };
 
-export const fetchUser = async (token) => {
+export const fetchUser = async (token: { accessToken: any }) => {
   const { accessToken } = token;
   if (accessToken) {
     const res = await axios.get(routes.currUser, {
@@ -20,7 +20,7 @@ export const fetchUser = async (token) => {
   return store.get('OrgToken');
 };
 
-export const loginAuth = async (data) => {
+export const loginAuth = async (data: { email: string; password: string }) => {
   const res = await axios.post(routes.login, data, {
     headers: { 'Access-Control-Allow-Origin': '*' },
   });

@@ -1,5 +1,10 @@
-import React from 'react';
+import Header from '../components/Navbar';
 
 export default function HR() {
-  return <div>HR</div>;
+  return (
+    <>
+      <Header />
+      <div>HR</div>
+    </>
+  );
 }

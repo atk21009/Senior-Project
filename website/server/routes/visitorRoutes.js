@@ -5,7 +5,7 @@ module.exports = (app) => {
   app.post("/api/create-visitor", async (req, res) => {
     const { firstname, lastname, phonenumber, location, _id } = req.body;
 
-    if (!firstname || !lastname || !phonenumber || !location || !_id) {
+    if (!firstname || !lastname || !_id) {
       res.status(400);
       res.send("All fields are required");
     } else {

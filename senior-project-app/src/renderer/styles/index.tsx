@@ -2,7 +2,8 @@
 import './App.css';
 
 // Components CSS
-import './Header.css';
+import './components/Header.css';
+import './components/Form.css';
 
 // Pages CSS
 import './pages/Landing.css';

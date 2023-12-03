@@ -1,5 +1,10 @@
-import React from 'react';
+import Header from '../components/Navbar';
 
 export default function Employer() {
-  return <div>Employer</div>;
+  return (
+    <>
+      <Header />
+      <div>Employer</div>
+    </>
+  );
 }

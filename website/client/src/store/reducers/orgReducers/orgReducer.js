@@ -1,8 +1,8 @@
-import { FETCH_USER } from "../actions/types";
+import { FETCH_ORG } from "../../actions/types";
 
 export default function authReducer(state = null, action) {
   switch (action.type) {
-    case FETCH_USER:
+    case FETCH_ORG:
       return action.payload || false;
     default:
       return state;

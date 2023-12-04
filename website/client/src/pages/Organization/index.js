@@ -58,7 +58,7 @@ function renderData(e) {
       cost = "$0.00";
     }
 
-    const resData = [cost, res.clockedIn, res.clockedOut, res.Visitor, res.OT];
+    const resData = [cost, res.clockedIn, res.clockedOut, res.Visitors, res.OT];
     let data = [];
     let headers = [
       "Employees Cost",

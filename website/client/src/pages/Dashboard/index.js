@@ -6,7 +6,7 @@ import * as actions from "../../store/actions";
 import DashboardNav from "../../components/DashboardNav";
 import renderEmployees from "../Employees/components/RenderEmp";
 import renderOrganization from "./components/RenderOrg";
-import renderVisitors from "./components/Visitors";
+import renderVisitors from "./components/visitors/Visitors";
 
 function renderContent(e) {
   return (

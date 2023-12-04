@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const acceptedVals = [
   "firstname",
   "lastname",
@@ -9,7 +11,6 @@ const acceptedVals = [
 export default function renderVisitors(e) {
   const { visitors } = e.props;
   if (visitors.length > 0) {
-    console.log(visitors);
     return (
       <div className="dashboard-card">
         <div className="dashboard-card-title">
@@ -37,10 +38,16 @@ export default function renderVisitors(e) {
                 return (
                   <tr className="visitor-info" key={e._id}>
                     {Object.keys(e).map((key) => {
-                      if (acceptedVals.includes(key)) {
+                      if (key === "firstname") {
                         return (
                           <td className="visitor-data" key={key}>
-                            {e[key]}
+                            <Link to={"/visitor/" + e._id}>{e[key]}</Link>
+                          </td>
+                        );
+                      } else if (acceptedVals.includes(key)) {
+                        return (
+                          <td className="visitor-data" key={key}>
+                            {e[key] || "-"}
                           </td>
                         );
                       } else {

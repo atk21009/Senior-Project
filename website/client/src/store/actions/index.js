@@ -7,6 +7,7 @@ import {
   CREATE_EMPS_RES,
   UPDATE_EMP,
   FETCH_VISITORS,
+  FETCH_VISITOR,
 } from "./types";
 import {
   AuthPost,
@@ -141,5 +142,25 @@ export const fetchVisitors = () => async (dispatch) => {
     } catch (e) {
       ErrMessage(e);
     }
+  }
+};
+
+export const fetchVisitor = (_id) => async (dispatch) => {
+  try {
+    await axios.get("/api/view-visitor", { params: { _id } }).then((res) => {
+      dispatch({ type: FETCH_VISITOR, payload: res.data });
+    });
+  } catch (e) {
+    ErrMessage(e);
+  }
+};
+
+export const deleteVisitor = (_id) => async (dispatch) => {
+  try {
+    await axios.post("/api/delete-visitor", { _id }).then((res) => {
+      window.location.href = "/dashboard";
+    });
+  } catch (e) {
+    ErrMessage(e);
   }
 };

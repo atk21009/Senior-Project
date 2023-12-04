@@ -24,11 +24,9 @@ const visitorSchema = new Schema({
   },
   phonenumber: {
     type: String,
-    required: true,
   },
   location: {
     type: String,
-    required: true,
   },
   business: {
     type: String,

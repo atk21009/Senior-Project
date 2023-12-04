@@ -39,18 +39,24 @@ const FIELDS: Record<string, any>[] = [
   },
 ];
 
-async function renderVisitors() {
-  const orgToken = await get('OrgToken');
-  viewVisitors(orgToken);
-  return 'Test';
-}
-
 export default function Visitor() {
-  const [content, setContent] = useState(renderVisitors());
+  const [visitors, setVisitors] = useState([]);
+
+  useEffect(() => {
+    const renderVisitors = async () => {
+      const visitorsData = await viewVisitors();
+      console.log(visitorsData);
+      if (visitorsData?.data) {
+        setVisitors(visitorsData.data);
+      }
+    };
+    renderVisitors();
+  }, []);
+
   return (
     <>
       <Header />
-      {content}
+      <div>Test</div>
     </>
   );
 }

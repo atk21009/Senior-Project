@@ -12,6 +12,7 @@ import Organization from "./Organization";
 import Employees from "./Employees";
 import Settings from "./Settings";
 import EmployeeProfile from "./Employees/Employee/EmployeeProfile";
+import Visitor_Profile from "./Dashboard/components/visitors/Visitor_Profile";
 
 export const pages = [
   {
@@ -45,14 +46,25 @@ export const pages = [
 ];
 
 export const authPages = [
+  // Core Components
   {
     component: Dashboard,
     path: "/dashboard",
   },
   {
+    component: Settings,
+    path: "/settings",
+  },
+  // Org Pages
+  {
     component: Organization,
     path: "/organization",
   },
+  {
+    component: CreateOrganization,
+    path: "/create-organization",
+  },
+  // Emp Pages
   {
     component: Employees,
     path: "/employees",
@@ -62,15 +74,12 @@ export const authPages = [
     path: "/create-employees",
   },
   {
-    component: CreateOrganization,
-    path: "/create-organization",
-  },
-  {
-    component: Settings,
-    path: "/settings",
-  },
-  {
     component: EmployeeProfile,
     path: "/employee/:employee_number",
+  },
+  // Visitor Pages
+  {
+    component: Visitor_Profile,
+    path: "/visitor/:visitor_number",
   },
 ];

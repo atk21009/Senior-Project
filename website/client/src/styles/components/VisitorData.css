@@ -58,52 +58,6 @@
   height: auto;
   font-size: 1rem;
 }
-
-/* .Emp-table {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-radius: 10px;
-    border: 1px solid var(--gray-30);
-    overflow: hidden;
-  }
-  
-  .Emp-table {
-    width: 100%;
-    display: grid;
-    position: relative;
-    border-radius: 10px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .Emp-table-headers {
-    background-color: var(--gray-20);
-    color: var(--primary-9);
-  }
-  .Emp-table-rows {
-    background-color: var(--primary-9);
-    border-bottom: 1px solid var(--gray-30);
-  }
-  
-  .Emp-table tr {
-    padding: 5px 0px;
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    width: 100%;
-  }
-  .Emp-table tr:nth-child(2n) {
-    background-color: var(--gray-35);
-  }
-  .Emp-table-headers {
-    background-color: var(--gray-20);
-    color: var(--primary-9);
-  }
-  .Emp-table td,
-  .Emp-table th {
-    padding: 5px 10px;
-    border: none;
-    text-align: center;
-  } */
+.visitor-data a {
+  color: var(--primary-1);
+}

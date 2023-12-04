@@ -7,17 +7,25 @@ const routes = {
   createVisitor: `${window.electron.uri}api/create-visitor`,
 };
 
+const { get } = window.electron.store;
+
 // View Visitors
-export const viewVisitors = async (orgToken: any) => {
+export const viewVisitors = async () => {
+  const orgToken = await get('OrgToken');
   console.log(orgToken);
   try {
-    const visitors = await axios.get(routes.getVisitors, {
-      headers: { 'Access-Control-Allow-Origin': '*' },
-      params: { orgToken },
-    });
-    console.log(visitors);
+    const visitors = await axios
+      .get(routes.getVisitors, {
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        params: { orgToken },
+      })
+      .then((res) => {
+        return res;
+      });
+    return visitors;
   } catch (e: any) {
     renderErrorMsg(e.response.data);
+    return null;
   }
 };
 // View Visitor

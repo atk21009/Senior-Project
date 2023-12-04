@@ -32,14 +32,38 @@ module.exports = (app) => {
       res.send("All fields are required");
     } else {
       const visitors = await Visitor.find({ business: orgToken });
-      res.status(200);
-      res.send(visitors);
+      if (visitors) {
+        res.status(200);
+        res.send(visitors);
+      } else {
+        res.status(400);
+        res.status("Error fetching visitor data");
+      }
+    }
+  });
+
+  // view visitor
+  app.get("/api/view-visitor", async (req, res) => {
+    const { _id } = req.query;
+    if (!_id) {
+      res.status(400);
+      res.send("Error fetching visitor");
+    } else {
+      const visitor = await Visitor.findById(_id);
+      if (visitor) {
+        res.status(200);
+        res.send(visitor);
+      } else {
+        res.status(400);
+        res.status("Error fetching visitor data");
+      }
     }
   });
 
   // delete visitors
   app.post("/api/delete-visitor", async (req, res) => {
     const { _id } = req.body;
+    console.log(req);
     if (!_id) {
       res.status(400);
       res.send("All fields are required");

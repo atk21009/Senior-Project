@@ -1,4 +1,4 @@
-import { CREATE_EMP_RES } from "../actions/types";
+import { CREATE_EMP_RES } from "../../actions/types";
 
 export default function empReducer(state = null, action) {
   switch (action.type) {

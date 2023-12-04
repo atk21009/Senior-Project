@@ -8,3 +8,4 @@ import "./ErrMessage.css";
 import "./EmployeeProfile.css";
 import "./PassPrompt.css";
 import "./VisitorData.css";
+import "./VisitorProfile.css";

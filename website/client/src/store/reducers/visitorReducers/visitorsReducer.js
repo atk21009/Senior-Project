@@ -1,4 +1,4 @@
-import { FETCH_VISITORS } from "../actions/types";
+import { FETCH_VISITORS } from "../../actions/types";
 
 export default function visitorReducer(state = null, action) {
   switch (action.type) {

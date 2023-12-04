@@ -1,20 +1,31 @@
 import { combineReducers } from "redux";
 import { reducer as reduxForm } from "redux-form";
-import authReducer from "./authReducer";
-import orgReducer from "./orgReducer";
-import empReducer from "./empReducer";
-import orgDataReducer from "./orgDataReducer";
-import createEmpReducer from "./createEmpReducer";
-import empsReducer from "./empsReducer";
-import visitorReducer from "./visitorReducer";
+import authReducer from "./authReducers/authReducer";
+import orgReducer from "./orgReducers/orgReducer";
+import empReducer from "./empReducers/empReducer";
+import orgDataReducer from "./orgReducers/orgDataReducer";
+import createEmpReducer from "./empReducers/createEmpReducer";
+import empsReducer from "./empReducers/empsReducer";
+import visitorsReducer from "./visitorReducers/visitorsReducer";
+import visitorReducer from "./visitorReducers/visitorReducer";
 
 export default combineReducers({
+  // auth
   auth: authReducer,
-  form: reduxForm,
+
+  // org
   org: orgReducer,
+  orgData: orgDataReducer,
+
+  // emp
   emp: empReducer,
   emps: empsReducer,
-  orgData: orgDataReducer,
   createEmp: createEmpReducer,
-  visitors: visitorReducer,
+
+  // visitor
+  visitor: visitorReducer,
+  visitors: visitorsReducer,
+
+  // component
+  form: reduxForm,
 });

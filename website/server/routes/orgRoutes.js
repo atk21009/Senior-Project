@@ -1,6 +1,7 @@
 const Employee = require("../models/Employee");
 const Organization = require("../models/Organization");
 const User = require("../models/User");
+const Visitor = require("../models/Visitor");
 
 function date() {
   var today = new Date();
@@ -131,11 +132,13 @@ module.exports = (app) => {
         clockStatus: 1,
       }
     );
+    const visitors = await Visitor.find({ business: OrgToken });
+    const num_visitors = visitors.length;
     let cost = 0,
       clockedIn = 0,
       clockedOut = 0,
       OT = 0,
-      Visitor = 0;
+      Visitors = num_visitors;
     if (emp) {
       emp.forEach((element) => {
         const rate = parseFloat(element.hourlyRate.slice(1));
@@ -161,7 +164,7 @@ module.exports = (app) => {
         }
       });
       res.status(200);
-      res.send({ cost, clockedIn, clockedOut, Visitor, OT });
+      res.send({ cost, clockedIn, clockedOut, Visitors, OT });
     } else {
       res.status(204);
       res.send("No employees found");

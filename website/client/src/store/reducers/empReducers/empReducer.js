@@ -1,4 +1,4 @@
-import { FETCH_EMP } from "../actions/types";
+import { FETCH_EMP } from "../../actions/types";
 
 export default function empReducer(state = null, action) {
   switch (action.type) {

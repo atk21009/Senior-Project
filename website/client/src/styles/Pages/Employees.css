@@ -130,7 +130,7 @@
   width: 100%;
 }
 .Emp-table tr:nth-child(2n) {
-  background-color: var(--gray-35);
+  background-color: var(--gray-36);
 }
 .Emp-table-headers {
   background-color: var(--gray-20);

@@ -1,9 +1,6 @@
-import { useEffect, useState } from 'react';
-import Form from '../components/Form';
-import Header from '../components/Navbar';
-import { viewVisitor, viewVisitors } from '../actions/visitor';
+import Form from '../../components/Form';
+import Header from '../../components/Navbar';
 
-const { get } = window.electron.store;
 const FIELDS: Record<string, any>[] = [
   {
     label: 'First Name',
@@ -39,24 +36,11 @@ const FIELDS: Record<string, any>[] = [
   },
 ];
 
-export default function Visitor() {
-  const [visitors, setVisitors] = useState([]);
-
-  useEffect(() => {
-    const renderVisitors = async () => {
-      const visitorsData = await viewVisitors();
-      console.log(visitorsData);
-      if (visitorsData?.data) {
-        setVisitors(visitorsData.data);
-      }
-    };
-    renderVisitors();
-  }, []);
-
+export default function createvisitor() {
   return (
     <>
       <Header />
-      <div>Test</div>
+      {Form(FIELDS, 'visitor')}
     </>
   );
 }

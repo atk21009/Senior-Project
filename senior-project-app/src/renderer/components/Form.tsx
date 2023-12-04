@@ -71,7 +71,10 @@ export default function Form(FIELDS: Record<string, any>[], type_: string) {
       location: target.loc.value,
     };
 
-    createVisitor(data);
+    await createVisitor(data).then(() => {
+      navigate('/visitor');
+      return null;
+    });
   }
 
   function renderSubmit() {
@@ -87,16 +90,16 @@ export default function Form(FIELDS: Record<string, any>[], type_: string) {
     }
   }
 
-  function handleSubmit(e: SyntheticEvent) {
+  async function handleSubmit(e: SyntheticEvent) {
     switch (type_) {
       case 'visitor':
-        handleSubmitVisitor(e);
+        await handleSubmitVisitor(e);
         break;
       case 'clock':
-        handleSubmitClock(e);
+        await handleSubmitClock(e);
         break;
       case 'auth':
-        handleSubmitAuth(e);
+        await handleSubmitAuth(e);
         break;
       default:
         break;

@@ -19,7 +19,7 @@
 }
 .nav-logo-ctnr > div {
   color: white;
-  font-size: 1.3rem;
+  font-size: var(--logo-font);
   font-weight: 600;
 }
 .nav-link-ctnr {
@@ -30,7 +30,7 @@
 .nav-link-ctnr > a {
   color: var(--primary-9);
   text-decoration: none;
-  font-size: 1rem;
+  font-size: var(--input-font);
   font-weight: 600;
 }
 

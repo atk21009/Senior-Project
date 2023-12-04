@@ -4,6 +4,8 @@ import './App.css';
 // Components CSS
 import './components/Header.css';
 import './components/Form.css';
+import './components/LoadingScreen.css';
+import './components/VisitorProfile.css';
 
 // Pages CSS
 import './pages/Landing.css';

@@ -3,6 +3,8 @@ import Employer from './Employer';
 import HR from './HR';
 import TimeClock from './TimeClock';
 import Landing from './Landing';
+import createVisitor from './Visitor/CreateVisitor';
+import VisitorProfile from './Visitor/VisitorProfile';
 
 const pages = [
   {
@@ -24,6 +26,14 @@ const pages = [
   {
     Component: TimeClock,
     route: '/timeclock',
+  },
+  {
+    Component: createVisitor,
+    route: '/create-visitor',
+  },
+  {
+    Component: VisitorProfile,
+    route: '/visitor/:visitor_id',
   },
 ];
 

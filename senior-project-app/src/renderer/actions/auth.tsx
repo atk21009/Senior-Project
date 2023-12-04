@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { renderErrorMsg } from './DisplayMsg';
 
 const { store } = window.electron;
 const routes = {
@@ -21,9 +22,14 @@ export const fetchUser = async (token: { accessToken: any }) => {
 };
 
 export const loginAuth = async (data: { email: string; password: string }) => {
-  const res = await axios.post(routes.login, data, {
-    headers: { 'Access-Control-Allow-Origin': '*' },
-  });
+  try {
+    const res = await axios.post(routes.login, data, {
+      headers: { 'Access-Control-Allow-Origin': '*' },
+    });
 
-  return fetchUser(res.data);
+    return fetchUser(res.data);
+  } catch (e: any) {
+    renderErrorMsg(e.response.data);
+    return null;
+  }
 };

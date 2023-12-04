@@ -1,0 +1,52 @@
+.v-prof-page {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 5rem;
+}
+.v-prof-ctnr {
+  min-width: 50%;
+  background-color: var(--primary-9);
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
+  padding: 3rem;
+  position: relative;
+}
+.v-prof-title {
+  width: 100%;
+  padding: 0px 10px 10px 10px;
+  font-size: var(--title-font);
+  border-bottom: 1px solid var(--gray-30);
+}
+.v-pd-ctnr {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 1.5rem 3rem 0px 3rem;
+}
+.v-prof-data-ctnr {
+  font-size: var(--body-font);
+}
+.v-prof-label {
+  font-size: var(--label-font);
+  font-weight: 500;
+}
+
+.v-checkout-ctnr {
+  display: flex;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  gap: 10px;
+}
+.v-checkout-btn {
+  padding: 7px 20px;
+  border: 2px solid;
+  background-color: transparent;
+  font-size: var(--body-font);
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  border-color: var(--error);
+  color: var(--error);
+}

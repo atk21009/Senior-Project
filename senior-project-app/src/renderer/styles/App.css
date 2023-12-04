@@ -3,6 +3,18 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 :root {
+  /* Font Sizes */
+  --title-font: 2.25rem;
+  --form-title-font: 1.5rem;
+  --form-label-font: 0.9rem;
+  --label-font: 1.25rem;
+  --input-font: 1rem;
+  --input-font-2: 14px;
+  --logo-font: 1.3rem;
+  --body-font: 1.125rem;
+  --error-font: 1.2rem;
+
+  /* Colors */
   --primary-1: rgba(21, 30, 47, 1);
   --primary-2: #15202b;
   --primary-3: #22303c;
@@ -60,6 +72,10 @@
   --gray-37: #f5f5f5;
   --gray-38: #f8f8f8;
   --gray-39: #ffffff;
+
+  --clock-out: #d2042d;
+  --clock-in: #228b22;
+  --error: #cb4154;
 }
 
 code {

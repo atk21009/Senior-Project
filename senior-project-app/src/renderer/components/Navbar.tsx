@@ -135,8 +135,6 @@ export default function Navbar() {
           <>
             <Link to="/timeclock">TimeClock</Link>
             <Link to="/visitor">Visitor</Link>
-            <Link to="/employer">Employer</Link>
-            <Link to="/hr">HR</Link>
           </>
         )}
       </div>

@@ -1,0 +1,105 @@
+.form-content-ctnr {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--gray-37);
+}
+.form-content {
+  min-height: max-content;
+  min-width: 35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--primary-9);
+  border: 1px solid var(--gray-30);
+  padding: 30px;
+  border-radius: 10px;
+}
+.form-icon {
+  height: 48px;
+  width: 48px;
+  margin-bottom: 16px;
+}
+.form-title {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  font-size: var(--form-title-font);
+  font-weight: 500;
+  width: max-content;
+  color: var(--primary-4);
+}
+.form-ctnr {
+  min-width: 80%;
+}
+.form {
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input-ctnr {
+  position: relative;
+  width: 100%;
+}
+
+.input-ctnr input {
+  width: 100%;
+  padding: 1rem 10px;
+  font-size: var(--input-font);
+  letter-spacing: 0.062rem;
+  margin-bottom: 1.875rem;
+  border: 1px solid var(--gray-30);
+  background: transparent;
+  border-radius: 4px;
+}
+
+.input-ctnr label {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 0.625rem 0;
+  font-size: var(--form-label-font);
+  color: var(--primary-5);
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-ctnr input:focus ~ label,
+.input-ctnr input:valid ~ label,
+.input-ctnr input:not([value='']) ~ label {
+  top: -1.125rem;
+  left: 10px;
+  color: var(--primary-5);
+  font-size: var(--form-label-font);
+  background-color: #fff;
+  height: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.input-ctnr input:focus {
+  outline: none;
+  border: 2px solid var(--primary-5);
+}
+
+.submit-btn {
+  border: none;
+  outline: none;
+  color: #fff;
+  background-color: var(--primary-4);
+  padding: 0.625rem 1.25rem;
+  cursor: pointer;
+  border-radius: 0.312rem;
+  font-size: var(--input-font);
+  float: right;
+}
+
+.submit-btn:hover {
+  background-color: var(--primary-5);
+  box-shadow:
+    0 1px 1px 0 rgba(66, 133, 244, 0.45),
+    0 1px 3px 1px rgba(66, 133, 244, 0.3);
+}

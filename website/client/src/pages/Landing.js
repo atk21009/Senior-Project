@@ -1,9 +1,13 @@
 import React from "react";
 
+import landingImg from "../imgs/landing-picture.jpg";
+
 export default function Landing() {
   return (
     <div className="page">
-      <div className="landing-img"></div>
+      <div className="landing-img">
+        <img src={landingImg} alt="Landing img" />
+      </div>
       <div className="landing-ctnr">
         <div className="landing-prod-desc">
           <div className="landing-header">Services</div>

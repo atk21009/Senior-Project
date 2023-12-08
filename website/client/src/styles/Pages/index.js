@@ -9,3 +9,6 @@ import "./SignUp.css";
 import "./Support.css";
 import "./Organization.css";
 import "./Employees.css";
+
+// Screen Size Variation
+import "./ScreenSizes.css";

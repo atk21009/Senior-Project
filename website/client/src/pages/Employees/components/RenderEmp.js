@@ -14,12 +14,11 @@ export default function renderEmployees(e) {
               to={`/employee/${employee.employeeNumber}`}
               className="Emp-Link"
             >
-              {employee.firstname}
+              {employee.firstname} {employee.lastname}
             </Link>
           </td>
-          <td>{employee.lastname}</td>
           <td>{employee.email}</td>
-          <td>
+          <td className="Clock-status">
             <span
               className={
                 employee.clockStatus !== "false" ? "ClockedIn" : "ClockedOut"
@@ -51,13 +50,20 @@ export default function renderEmployees(e) {
           />
         ) : null}
       </div>
+      {emp.length !== 0 ? (
+        <input
+          className="Emp-card-search-ss"
+          id="EmpSearch-ss"
+          placeholder="Search..."
+          onKeyUp={searchEmpSS}
+        />
+      ) : null}
       <div className="Emp-card-content">
         {emp.length !== 0 ? (
           <table className="Emp-table" id="Emp-table" key={"Emp-emp-table"}>
             <tbody key={"Emp-emp-tbody"}>
               <tr className="Emp-table-headers">
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>Name</th>
                 <th>Email</th>
                 <th>Clock Status</th>
                 <th>Hours This Week</th>
@@ -81,6 +87,27 @@ function searchEmp() {
   var input, filter, table, tr, td, i, txtValue;
 
   input = document.getElementById("EmpSearch");
+  table = document.getElementById("Emp-table");
+  filter = input.value.toUpperCase();
+
+  tr = table.getElementsByTagName("tr");
+  for (i = 1; i < tr.length; i++) {
+    td = tr[i];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function searchEmpSS() {
+  var input, filter, table, tr, td, i, txtValue;
+
+  input = document.getElementById("EmpSearch-ss");
   table = document.getElementById("Emp-table");
   filter = input.value.toUpperCase();
 

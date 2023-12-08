@@ -96,8 +96,8 @@
 
 .EP-Paystub {
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, max-content);
+  display: flex;
+  flex-direction: column;
   gap: 5px;
   padding: 10px 30px;
 }
@@ -109,12 +109,20 @@
   font-size: 1.3rem;
   font-weight: 500;
   padding-right: 10px;
+  border-bottom: 1px solid var(--gray-35);
+  padding: 5px 10px;
 }
 .EPP-Ctnr {
   display: flex;
-  align-items: flex-end;
+  gap: 50px;
+  padding: 5px 50px;
+}
+.EPP-data-ctnr {
+  display: flex;
+  width: max-content;
 }
 .EPP-Data {
+  width: max-content;
   padding-right: 10px;
   display: flex;
   align-items: flex-end;
@@ -123,13 +131,15 @@
   cursor: pointer;
 }
 .EPP-Label {
+  width: max-content;
   display: flex;
+  justify-content: flex-end;
   align-items: flex-end;
   height: 100%;
   font-weight: 500;
   padding: 0px 10px;
-  border-left: 2px solid var(--gray-27);
 }
+
 /* Toggle Collapsable */
 
 .Paystub-active,

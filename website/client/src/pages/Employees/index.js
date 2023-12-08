@@ -36,7 +36,7 @@ class Employees extends Component {
           <div className="Emp-page">
             <div className="Emp-card-ctnr">
               <div className="Emp-title">
-                Employees
+                <span>Employees</span>
                 {!this.props.org || this.props.org.status === 204 ? (
                   <></>
                 ) : (
@@ -50,6 +50,18 @@ class Employees extends Component {
                   </Link>
                 )}
               </div>
+              {!this.props.org || this.props.org.status === 204 ? (
+                <></>
+              ) : (
+                <Link
+                  to="/create-employees"
+                  className="Emp-create-link"
+                  key={"emp-create-link"}
+                >
+                  Create Employees
+                  <i className="fa-solid fa-chevron-right"></i>
+                </Link>
+              )}
               {this.state.content}
             </div>
           </div>

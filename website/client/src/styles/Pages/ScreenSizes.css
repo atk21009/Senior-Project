@@ -1,0 +1,205 @@
+/* 1600px - 1200px */
+@media screen and (max-width: 1600px) {
+  .dashboard-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .employee-view {
+    padding: 0;
+  }
+  .Emp-table tr td:nth-child(2),
+  .Emp-table tr th:nth-child(2),
+  .Emp-table tr td:nth-child(6),
+  .Emp-table tr th:nth-child(6),
+  .Emp-table tr td:nth-child(7),
+  .Emp-table tr th:nth-child(7),
+  .Emp-table tr td:nth-child(8),
+  .Emp-table tr th:nth-child(8) {
+    display: none;
+  }
+  .Emp-table tr {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .Org-fields-ctnr {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .Org-data-ctnr {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (max-width: 1300px) {
+  .CE-page > .CE-ctnr {
+    grid-template-columns: 100%;
+  }
+
+  .CE-card {
+    min-height: 600px;
+  }
+
+  .Emp-Profile-Card > .EP-Data-Ctnr {
+    width: 100%;
+  }
+}
+/* 1200px - 900px */
+@media screen and (max-width: 1200px) {
+  .Clock-status {
+    width: max-content;
+  }
+  .v-pro > .v-data-ctnr {
+    width: 100%;
+  }
+  .v-pro > .v-data-ctnr > .v-data {
+    display: flex;
+    flex-direction: column;
+  }
+  .Emp-Profile-Card > .EP-Data-Ctnr {
+    width: 80%;
+    grid-template-columns: auto;
+  }
+}
+/* 900px - 760px */
+@media screen and (max-width: 900px) {
+  .header > .header-links {
+    display: none;
+  }
+  .header > .Menu {
+    display: flex;
+  }
+  .header > .Menu > .dropdown-btn {
+    cursor: pointer;
+    height: auto;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .Org-fields-ctnr,
+  .Org-data-ctnr {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* 760px - 320px */
+@media screen and (max-width: 760px) {
+  .footer > .footer-links {
+    display: none;
+  }
+  .dash-nav-link > span {
+    display: none;
+  }
+
+  .Org-ctnr {
+    padding: 10px;
+    width: calc(100vw - 61px);
+  }
+
+  .Org-card {
+    width: calc(100vw - 81px);
+  }
+}
+
+/* 700px */
+@media screen and (max-width: 700px) {
+  .features-page {
+    grid-template-columns: auto;
+  }
+  .pricing-ctnr {
+    grid-template-columns: auto;
+  }
+  .pricing {
+    position: static;
+    border: 1px solid var(--primary-3);
+  }
+}
+
+/* 600px */
+@media screen and (max-width: 600px) {
+  .dashboard-content {
+    padding: 10px;
+  }
+  .dshbrd-fields {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .visitor-tbody tr {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .visitor-tbody tr td:nth-child(2),
+  .visitor-tbody tr td:nth-child(3) {
+    display: none;
+  }
+
+  .Emp-table tr {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .Emp-table tr td:nth-child(3),
+  .Emp-table tr td:nth-child(4),
+  .Emp-table tr th:nth-child(3),
+  .Emp-table tr th:nth-child(4) {
+    display: none;
+  }
+  .Emp-title a {
+    display: none;
+  }
+  .Emp-create-link {
+    display: flex;
+  }
+  .Emp-card-search {
+    display: none;
+  }
+  .Emp-card-search-ss {
+    display: flex;
+    margin: 10px;
+  }
+  .Emp-page {
+    padding: 10px;
+  }
+  .CE-card > .form-CE {
+    display: flex;
+    flex-direction: column;
+  }
+  .CE-page > .CE-ctnr {
+    padding: 0;
+  }
+  .CE-ctnr #CE-Submit {
+    width: 100%;
+  }
+  .CE-Form-Employees {
+    min-height: 350px;
+  }
+  .CE-Form-Employees .CE-card-submit {
+    width: 100%;
+  }
+  .CE-Form-Employees .shown {
+    width: 90%;
+    padding: 10px;
+  }
+
+  /* No Auth screens*/
+  .landing-card {
+    width: 90%;
+  }
+  .features-list-two,
+  .features-list ul {
+    grid-template-columns: auto;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .features-page {
+    padding: 10px;
+  }
+  .pricing-ctnr {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .Org-fields-ctnr,
+  .Org-data-ctnr {
+    grid-template-columns: auto;
+  }
+}

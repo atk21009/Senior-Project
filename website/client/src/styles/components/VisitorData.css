@@ -50,7 +50,7 @@
   display: grid;
   width: 100%;
   text-align: center;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   border-bottom: 1px solid var(--gray-35);
   padding: 3px;
 }

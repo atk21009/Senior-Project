@@ -27,6 +27,11 @@ class Headercontent extends Component {
     return <Link to={headerLink}>{headerTitle}</Link>;
   }
 
+  toggleDropdown() {
+    const dpd = document.getElementById("header-dropdown");
+    dpd.classList.toggle("show-header-drop");
+  }
+
   render() {
     return (
       <div className="header">
@@ -39,8 +44,38 @@ class Headercontent extends Component {
             Download
           </a>
           <Link to="/support">Support</Link>
+          <div className="header-auth">{this.renderContent()}</div>
         </div>
-        <div className="header-auth">{this.renderContent()}</div>
+
+        <div className="Menu">
+          <i
+            class="fa-solid fa-bars dropdown-btn"
+            onClick={this.toggleDropdown}
+          ></i>
+          <div className="dropdown-header-links" id="header-dropdown">
+            <Link to="/" onClick={this.toggleDropdown}>
+              Home
+            </Link>
+            <Link to="/features" onClick={this.toggleDropdown}>
+              Features
+            </Link>
+            <Link to="/pricing" onClick={this.toggleDropdown}>
+              Pricing
+            </Link>
+            <a
+              onClick={this.toggleDropdown}
+              href="https://github.com/atk21009/Senior-Project/releases/download/v1.0.0/ElectronReact.Setup.4.6.0.exe"
+            >
+              Download
+            </a>
+            <Link to="/support" onClick={this.toggleDropdown}>
+              Support
+            </Link>
+            <div className="header-auth" onClick={this.toggleDropdown}>
+              {this.renderContent()}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

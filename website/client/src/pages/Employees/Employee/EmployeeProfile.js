@@ -124,14 +124,20 @@ function RenderContent(e) {
                           <div className="EP-Paystub" key={day}>
                             <span className="EPP-Date">{capitalize(day)}</span>
                             <span className="EPP-Ctnr">
-                              <span className="EPP-Label">Hours Worked: </span>
-                              <span className="EPP-Data">
-                                {payPeriod[day].hours}
+                              <span className="EPP-data-ctnr">
+                                <span className="EPP-Label">
+                                  Hours Worked:{" "}
+                                </span>
+                                <span className="EPP-Data">
+                                  {payPeriod[day].hours}
+                                </span>
                               </span>
 
-                              <span className="EPP-Label">Pay: </span>
-                              <span className="EPP-Data">
-                                {payPeriod[day].pay}
+                              <span className="EPP-data-ctnr">
+                                <span className="EPP-Label">Pay: </span>
+                                <span className="EPP-Data">
+                                  {payPeriod[day].pay}
+                                </span>
                               </span>
                             </span>
                           </div>

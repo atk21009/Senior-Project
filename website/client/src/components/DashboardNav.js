@@ -7,26 +7,31 @@ export default function DashboardNav() {
     <div className="dash-nav">
       <div>
         <Link to="/dashboard" className="dash-nav-link">
-          <i className="fa-solid fa-house"></i>Dashboard
+          <i className="fa-solid fa-house"></i>
+          <span>Dashboard</span>
         </Link>
       </div>
       <div>
         <Link to="/organization" className="dash-nav-link">
-          <i className="fa-solid fa-building"></i>Organization
+          <i className="fa-solid fa-building"></i>
+          <span>Organization</span>
         </Link>
       </div>
       <div>
         <Link to="/employees" className="dash-nav-link">
-          <i className="fa-solid fa-user"></i>Employees
+          <i className="fa-solid fa-user"></i>
+          <span>Employees</span>
         </Link>
       </div>
 
       <div className="bottom">
         <Link to="/settings" className="dash-nav-link bottom-link">
-          <i className="fa-solid fa-gear"></i>Settings
+          <i className="fa-solid fa-gear"></i>
+          <span>Settings</span>
         </Link>
         <Link onClick={actions.logout()} className="dash-nav-link bottom-link">
-          <i className="fa-solid fa-right-from-bracket"></i>Logout
+          <i className="fa-solid fa-right-from-bracket"></i>
+          <span>Logout</span>
         </Link>
       </div>
     </div>

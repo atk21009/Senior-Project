@@ -5,6 +5,7 @@
   background-color: var(--primary-4);
   gap: 20px;
   position: relative;
+  z-index: 1;
 }
 .nav-logo-ctnr {
   width: max-content;

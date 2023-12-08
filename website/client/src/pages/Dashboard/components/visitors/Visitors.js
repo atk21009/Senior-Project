@@ -28,8 +28,7 @@ export default function renderVisitors(e) {
           <table className="visitor-table" id="visitorTable">
             <tbody className="visitor-tbody">
               <tr className="visitor-info visitor-header">
-                <td>First Name</td>
-                <td>Last Name</td>
+                <td>Name</td>
                 <td>Phone Number</td>
                 <td>Location</td>
                 <td>Time of Arrival</td>
@@ -41,9 +40,13 @@ export default function renderVisitors(e) {
                       if (key === "firstname") {
                         return (
                           <td className="visitor-data" key={key}>
-                            <Link to={"/visitor/" + e._id}>{e[key]}</Link>
+                            <Link to={"/visitor/" + e._id}>
+                              {e[key] + " " + e["lastname"]}
+                            </Link>
                           </td>
                         );
+                      } else if (key === "lastname") {
+                        return null;
                       } else if (acceptedVals.includes(key)) {
                         return (
                           <td className="visitor-data" key={key}>

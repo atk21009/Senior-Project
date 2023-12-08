@@ -33,7 +33,25 @@
   top: 50%;
   transform: translate(0%, -50%);
 }
-.Emp-create i {
+.Emp-create-link {
+  width: max-content;
+  display: none;
+  align-items: center;
+  justify-self: center;
+  gap: 10px;
+  font-size: 20px;
+  line-height: 20px;
+  color: var(--primary-1);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px;
+  background-color: var(--primary-9);
+  border-radius: 10px;
+  border: 1px solid var(--gray-30);
+}
+
+.Emp-create i,
+.Emp-create-link i {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,7 +64,9 @@
 }
 
 .Emp-create:hover,
-.Emp-create:hover i {
+.Emp-create:hover i,
+.Emp-create-link:hover,
+.Emp-create-link:hover i {
   color: var(--primary-5);
   border-color: var(--primary-5);
 }
@@ -55,6 +75,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 20px;
 }
 .Emp-list {
@@ -86,6 +107,15 @@
   right: 10px;
   top: 50%;
   transform: translate(0%, -50%);
+}
+
+.Emp-card-search-ss {
+  display: none;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid var(--gray-30);
+  border-radius: 10px;
+  outline: 0;
 }
 
 .Emp-card-content {
@@ -126,7 +156,7 @@
 .Emp-table tr {
   padding: 5px 0px;
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   width: 100%;
 }
 .Emp-table tr:nth-child(2n) {

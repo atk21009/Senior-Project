@@ -37,12 +37,7 @@ function renderOrganization(e) {
 
     return (
       <>
-        <div className="Org-title">
-          {company}
-          <Link className="Org-edit-link">
-            Edit Organization<i className="fa-solid fa-chevron-right"></i>
-          </Link>
-        </div>
+        <div className="Org-title">{company}</div>
         <div className="Org-fields-ctnr">{CompanyData}</div>
       </>
     );

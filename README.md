@@ -1,7 +1,5 @@
 <h1 align="center"><img align="center" height="40" src="./website/client/src/imgs/icon/iconWhite.svg" alt="DBS Icon"/> Dynamic Business Sync </h1>
 
----
-
 ## Website
 
 [Live Demo](https://www.taylor58.dev/)

@@ -77,19 +77,6 @@ export default function Form(FIELDS: Record<string, any>[], type_: string) {
     });
   }
 
-  function renderSubmit() {
-    switch (type_) {
-      case 'visitor':
-        return <input type="submit" value="Sign In" className="submit-btn" />;
-      case 'clock':
-        return <input type="submit" value="Login" className="submit-btn" />;
-      case 'auth':
-        return <input type="submit" value="Login" className="submit-btn" />;
-      default:
-        return null;
-    }
-  }
-
   async function handleSubmit(e: SyntheticEvent) {
     switch (type_) {
       case 'visitor':
@@ -149,7 +136,11 @@ export default function Form(FIELDS: Record<string, any>[], type_: string) {
                 </div>
               );
             })}
-            {renderSubmit()}
+            {type_ === 'visitor' ? (
+              <input type="submit" value="Sign In" className="submit-btn" />
+            ) : (
+              <input type="submit" value="Login" className="submit-btn" />
+            )}
           </form>
         </div>
       </div>

@@ -26,6 +26,7 @@ export const loginAuth = async (data: { email: string; password: string }) => {
     const res = await axios.post(routes.login, data, {
       headers: { 'Access-Control-Allow-Origin': '*' },
     });
+    store.set('OrgToken', res.data.accessToken);
 
     return fetchUser(res.data);
   } catch (e: any) {

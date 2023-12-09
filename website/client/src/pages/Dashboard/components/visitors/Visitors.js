@@ -10,7 +10,7 @@ const acceptedVals = [
 
 export default function renderVisitors(e) {
   const { visitors } = e.props;
-  if (visitors.length > 0) {
+  if (visitors) {
     return (
       <div className="dashboard-card">
         <div className="dashboard-card-title">

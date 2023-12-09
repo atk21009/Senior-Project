@@ -11,60 +11,71 @@ const acceptedVals = [
 export default function renderVisitors(e) {
   const { visitors } = e.props;
   if (visitors) {
-    return (
-      <div className="dashboard-card">
-        <div className="dashboard-card-title">
-          Visitors
-          {visitors.length !== 0 ? (
-            <input
-              className="Emp-card-search"
-              id="VisitorSearch"
-              placeholder="Search..."
-              onKeyUp={searchVisitor}
-            />
-          ) : null}
+    if (visitors.length > 0) {
+      return (
+        <div className="dashboard-card">
+          <div className="dashboard-card-title">
+            Visitors
+            {visitors.length !== 0 ? (
+              <input
+                className="Emp-card-search"
+                id="VisitorSearch"
+                placeholder="Search..."
+                onKeyUp={searchVisitor}
+              />
+            ) : null}
+          </div>
+          <div className="visitor-ctnr">
+            <table className="visitor-table" id="visitorTable">
+              <tbody className="visitor-tbody">
+                <tr className="visitor-info visitor-header">
+                  <td>Name</td>
+                  <td>Phone Number</td>
+                  <td>Location</td>
+                  <td>Time of Arrival</td>
+                </tr>
+                {visitors.map((e) => {
+                  return (
+                    <tr className="visitor-info" key={e._id}>
+                      {Object.keys(e).map((key) => {
+                        if (key === "firstname") {
+                          return (
+                            <td className="visitor-data" key={key}>
+                              <Link to={"/visitor/" + e._id}>
+                                {e[key] + " " + e["lastname"]}
+                              </Link>
+                            </td>
+                          );
+                        } else if (key === "lastname") {
+                          return null;
+                        } else if (acceptedVals.includes(key)) {
+                          return (
+                            <td className="visitor-data" key={key}>
+                              {e[key] || "-"}
+                            </td>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div className="visitor-ctnr">
-          <table className="visitor-table" id="visitorTable">
-            <tbody className="visitor-tbody">
-              <tr className="visitor-info visitor-header">
-                <td>Name</td>
-                <td>Phone Number</td>
-                <td>Location</td>
-                <td>Time of Arrival</td>
-              </tr>
-              {visitors.map((e) => {
-                return (
-                  <tr className="visitor-info" key={e._id}>
-                    {Object.keys(e).map((key) => {
-                      if (key === "firstname") {
-                        return (
-                          <td className="visitor-data" key={key}>
-                            <Link to={"/visitor/" + e._id}>
-                              {e[key] + " " + e["lastname"]}
-                            </Link>
-                          </td>
-                        );
-                      } else if (key === "lastname") {
-                        return null;
-                      } else if (acceptedVals.includes(key)) {
-                        return (
-                          <td className="visitor-data" key={key}>
-                            {e[key] || "-"}
-                          </td>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      );
+    } else {
+      return (
+        <div className="dashboard-card">
+          <div className="dashboard-card-title">Visitors</div>
+          <div className="no-data">
+            You have no current visitors at your business.
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   } else {
     return (
       <div className="dashboard-card">

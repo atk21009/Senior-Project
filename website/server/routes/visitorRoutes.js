@@ -63,7 +63,6 @@ module.exports = (app) => {
   // delete visitors
   app.post("/api/delete-visitor", async (req, res) => {
     const { _id } = req.body;
-    console.log(req);
     if (!_id) {
       res.status(400);
       res.send("All fields are required");
@@ -96,7 +95,6 @@ module.exports = (app) => {
           res.status(200);
           res.send("Visitor successfully signed out");
         } catch (e) {
-          console.log(e);
           res.status(400);
           res.send("Error in signing out visitor");
         }

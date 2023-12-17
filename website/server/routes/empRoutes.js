@@ -498,7 +498,6 @@ const resetHrWorked = new cron.CronJob(
   "0 0 * * Sun",
   async function () {
     const dt = cron.sendAt("0 0 * * Sun");
-    console.log(`The Job will run at: ${dt.toFormat("LLL/dd/yyyy - HH:mm")}`);
 
     await updateOrgs();
   },

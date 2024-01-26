@@ -1,5 +1,5 @@
 import { editOrg } from "./EditOrg";
-import { DashNoData } from "../../../store/utils/NoData";
+import { DashNoData } from "../../../utils/NoData";
 
 export default function renderOrganization(e) {
   if (e.props.org.status === 204 || !e.props.org) {

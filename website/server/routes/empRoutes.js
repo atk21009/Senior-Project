@@ -1,16 +1,27 @@
-const Organization = require("../models/Organization");
-const Employee = require("../models/Employee");
-const bcrypt = require("bcrypt");
+// Module Imports
 const Papa = require("papaparse");
 const fileUpload = require("express-fileupload");
 const cron = require("cron");
-const { NextDateString } = require("../services/DateString");
+
+// Component Imports
+const { NextDateString } = require("../utils/DateString");
+const {
+  validDate,
+  validate,
+  createUserPass,
+  HrParse,
+  isCurrency,
+} = require("../utils/EmployeeUtils");
+const Employee = require("../models/Employee");
 
 module.exports = (app) => {
   app.use(fileUpload());
 
+  ////////////////////////////////////////////////////////////////////////////
   // create employee
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/create-emp", async (req, res) => {
+    // Data
     const { OrgToken } = req.body;
     const {
       firstname,
@@ -27,74 +38,90 @@ module.exports = (app) => {
       hireDate,
     } = req.body.data;
 
+    // Validate required data
     if (!firstname || !lastname || !email || !empNum) {
       res.status(400);
       res.send("All mandatory fields are required");
-    } else {
-      const empExist = await Employee.findOne({
-        company: OrgToken,
+      return;
+    }
+
+    // Ensure employee doesn't exist
+    const empExist = await Employee.findOne({
+      company: OrgToken,
+      employeeNumber: empNum,
+    });
+    if (empExist) {
+      res.status(400);
+      res.send("Employee already exists");
+      return;
+    }
+
+    // Construct data
+    const empValues = {
+      firstname: firstname || "null",
+      lastname: lastname || "null",
+      email: email || "null",
+      phonenumber: phonenumber || "null",
+      address: address || "null",
+      birthDate: birthDate || "null",
+      ssn: ssn || "null",
+      employeeNumber: empNum || "null",
+      office: office || "null",
+      position: position || "null",
+      hourlyRate: hourlyRate || "null",
+      hireDate: hireDate || "null",
+    };
+
+    // Validate
+    const errors = await validate(OrgToken, empValues);
+    if (errors.length > 0) {
+      const [hashedSSN, hashedPassword] = await createUserPass(ssn);
+
+      const employee = new Employee({
+        firstname,
+        lastname,
+        email,
+        phonenumber,
+        address,
+        birthDate,
+        ssn: hashedSSN,
         employeeNumber: empNum,
+        password: hashedPassword,
+        company: OrgToken,
+        office,
+        position,
+        hourlyRate,
+        hireDate,
       });
-      if (empExist) {
-        res.status(400);
-        res.send("Employee already exists");
-      } else {
-        const empValues = {
-          firstname: firstname || "null",
-          lastname: lastname || "null",
-          email: email || "null",
-          phonenumber: phonenumber || "null",
-          address: address || "null",
-          birthDate: birthDate || "null",
-          ssn: ssn || "null",
-          employeeNumber: empNum || "null",
-          office: office || "null",
-          position: position || "null",
-          hourlyRate: hourlyRate || "null",
-          hireDate: hireDate || "null",
-        };
-        const errors = await validate(OrgToken, empValues);
-        if (errors.length > 0) {
-          const [hashedSSN, hashedPassword] = await createUserPass(ssn);
 
-          const employee = new Employee({
-            firstname,
-            lastname,
-            email,
-            phonenumber,
-            address,
-            birthDate,
-            ssn: hashedSSN,
-            employeeNumber: empNum,
-            password: hashedPassword,
-            company: OrgToken,
-            office,
-            position,
-            hourlyRate,
-            hireDate,
-          });
-
-          if (employee) {
-            employee.save();
-            res.status(200);
-            res.send("Employee Created");
-          } else {
-            res.send(400);
-            res.send("Error in employee creation");
-          }
-        }
+      // If error creating employee
+      if (!employee) {
+        res.send(400);
+        res.send("Error in employee creation");
+        return;
       }
+
+      // No errors
+      employee.save();
+      res.status(200);
+      res.send("Employee Created");
     }
   });
+
+  ////////////////////////////////////////////////////////////////////////////
   // create employees
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/create-employees", async (req, res) => {
+    // Parameters
     const { OrgToken } = req.body;
     const data = req.files.file;
     const file = data.data.toString("utf8");
     const parsed = Papa.parse(file, { skipEmptyLines: true }).data.slice(1);
 
+    // Loop through employee data
     let errors = [];
     const employees = parsed.map(async (emp) => {
+      // Init hourly rate
       let hourlyRate = null;
       if (emp[10] === "" || !emp[10]) {
         hourlyRate = "$0";
@@ -102,6 +129,7 @@ module.exports = (app) => {
         hourlyRate = emp[10];
       }
 
+      // Employee Values
       const empValues = {
         firstname: emp[0],
         lastname: emp[1],
@@ -119,6 +147,7 @@ module.exports = (app) => {
         hireDate: emp[11],
       };
 
+      // Validate correct data
       await validate(OrgToken, empValues).then((res) => {
         if (res.length > 0) {
           errors.push({
@@ -130,16 +159,24 @@ module.exports = (app) => {
           return res;
         }
       });
+
+      // Create hashed password
       const [hashedSSN, hashedPassword] = await createUserPass(emp[6]);
       empValues.password = hashedPassword;
       empValues.ssn = hashedSSN;
+
+      // Return values
       return empValues;
     });
 
+    // Create employees
     await Promise.all(employees).then(async (res) => {
+      // Error handling
       const errEmpNum = errors.map((e) => {
         return e.employeeNumber;
       });
+
+      // Filter out all employees with errors
       const filterEmp = res
         .map((e) => {
           const empNum = e.employeeNumber;
@@ -150,67 +187,94 @@ module.exports = (app) => {
         .filter((item) => item);
       await Employee.insertMany(filterEmp);
     });
+
+    // If errors
     if (errors.length > 0) {
       res.status(206);
       res.send(errors);
-    } else {
-      res.status(201);
-      res.send("All Employees inserted");
+      return;
     }
+
+    // No errors
+    res.status(201);
+    res.send("All Employees inserted");
   });
+
+  ////////////////////////////////////////////////////////////////////////////
   // view employee
+  ////////////////////////////////////////////////////////////////////////////
   app.get("/api/view-employee", async (req, res) => {
     const { OrgToken, employeeNumber } = req.query;
 
+    // Validate Parameters
     if (!OrgToken || !employeeNumber) {
       res.status(400);
       res.send("Employee Number and Organization required");
-    } else {
-      const emp = await Employee.findOne(
-        { company: OrgToken, employeeNumber },
-        { ssn: 0 }
-      );
-
-      if (emp) {
-        res.status(200);
-        res.send(emp);
-      } else {
-        res.status(404);
-        res.send("No Employee Found");
-      }
+      return;
     }
+
+    // Get employee data
+    const emp = await Employee.findOne(
+      { company: OrgToken, employeeNumber },
+      { ssn: 0 }
+    );
+
+    // If no employee found
+    if (!emp) {
+      res.status(404);
+      res.send("No Employee Found");
+      return;
+    }
+
+    // Employee Found
+    res.status(200);
+    res.send(emp);
   });
+
+  ////////////////////////////////////////////////////////////////////////////
   // view employees
+  ////////////////////////////////////////////////////////////////////////////
   app.get("/api/view-employees", async (req, res) => {
     const { OrgToken } = req.query;
 
+    // Check organization token
     if (!OrgToken) {
       res.status(203);
       res.send("All fields are required");
-    } else {
-      const employees = await Employee.find(
-        { company: OrgToken },
-        {
-          _id: 0,
-          ssn: 0,
-          company: 0,
-          address: 0,
-          hourlyRate: 0,
-          birthDate: 0,
-          password: 0,
-        }
-      );
-      if (employees) {
-        res.status(200);
-        res.send(employees);
-      } else {
-        res.status(204);
-        res.send("No Employees Found");
-      }
+      return;
     }
+
+    // Find employees of organization
+    const employees = await Employee.find(
+      { company: OrgToken },
+      {
+        _id: 0,
+        ssn: 0,
+        company: 0,
+        address: 0,
+        hourlyRate: 0,
+        birthDate: 0,
+        password: 0,
+      }
+    );
+
+    // If employees found
+    if (employees) {
+      res.status(200);
+      res.send(employees);
+      return;
+    }
+
+    // No employees found
+    res.status(204);
+    res.send("No Employees Found");
   });
+
+  ////////////////////////////////////////////////////////////////////////////
   // update employee
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/update-employee", async (req, res) => {
+    // Parameters
     const {
       email,
       phonenumber,
@@ -221,52 +285,71 @@ module.exports = (app) => {
       employeeNumber,
       OrgToken,
     } = req.body;
+
+    // Validate required data
     if (!employeeNumber || !OrgToken) {
       res.status(406);
       res.send("All values are required");
-    } else {
-      const validateDate = validDate(birthDate);
-      const currency = isCurrency(hourlyRate);
-
-      if (validateDate && currency) {
-        const emp = await Employee.findOneAndUpdate(
-          { employeeNumber },
-          { email, phonenumber, hourlyRate, position, address, birthDate }
-        );
-
-        res.status(200);
-        res.send("Employee Updated");
-      } else {
-        res.status(406);
-        res.send("Incorrect format of currency or birthdate");
-      }
+      return;
     }
+
+    // Validate Data
+    const validateDate = validDate(birthDate);
+    const currency = isCurrency(hourlyRate);
+
+    // Validate date and currency is not null
+    if (validateDate && currency) {
+      const emp = await Employee.findOneAndUpdate(
+        { employeeNumber },
+        { email, phonenumber, hourlyRate, position, address, birthDate }
+      );
+
+      res.status(200);
+      res.send("Employee Updated");
+      return;
+    }
+
+    // Invalid format
+    res.status(406);
+    res.send("Incorrect format of currency or birthdate");
   });
+
+  ////////////////////////////////////////////////////////////////////////////
   // delete employee
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/delete-employee", async (req, res) => {
     const { employeeNumber, company } = req.body;
+
+    // Validate employee num and company is not null
     if (!employeeNumber || !company) {
       res.status(400);
       res.send("Employee number and organization required");
-    } else {
-      const emp = await Employee.findOne(
-        { employeeNumber, company },
-        { _id: 1 }
-      );
-      if (emp) {
-        await Employee.findByIdAndDelete(emp._id);
-        res.status(200);
-        res.send("Employee deleted");
-      } else {
-        res.status(404);
-        res.send("Employee not found");
-      }
+      return;
     }
+
+    // Find employee
+    const emp = await Employee.findOne({ employeeNumber, company }, { _id: 1 });
+
+    // Validate Employee found
+    if (!emp) {
+      res.status(404);
+      res.send("Employee not found");
+      return;
+    }
+
+    // Find and delete employee
+    await Employee.findByIdAndDelete(emp._id);
+    res.status(200);
+    res.send("Employee deleted");
   });
+
+  ////////////////////////////////////////////////////////////////////////////
   // Clock In Out
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/clock-in-out", async (req, res) => {
     const { OrgToken, employeeNumber, password } = req.body;
 
+    // Find Employee
     const Emp = await Employee.findOne(
       { company: OrgToken, employeeNumber },
       {
@@ -278,223 +361,90 @@ module.exports = (app) => {
         clockStatus: 1,
       }
     );
-    if (Emp) {
-      if (Emp.clockStatus === "false") {
-        const clockStatus = Date.now();
-        await Employee.updateOne(
-          { company: OrgToken, employeeNumber },
-          { $set: { clockStatus } }
-        );
-        res.status(200);
-        res.send("Employee Clocked In");
-      } else {
-        // Get current day
-        const weekday = [
-          "sunday",
-          "monday",
-          "tuesday",
-          "wednesday",
-          "thursday",
-          "friday",
-          "saturday",
-        ];
-        const d = new Date();
-        let day = weekday[d.getDay()];
 
-        // Get most recent pay period
-        let currWeek = Emp.hoursWorked[Emp.hoursWorked.length - 1];
-
-        // Get the current day create string
-        const currWeekDay = currWeek[day].hours;
-
-        const hoursWorkedStr = HrParse(currWeekDay, Emp);
-        const dayHrWorked = `${hoursWorkedStr[0]}hr ${hoursWorkedStr[1]}min`;
-
-        let payRate = Emp.hourlyRate.slice(1);
-        payRate = parseFloat(payRate);
-        const payTotal =
-          payRate * hoursWorkedStr[0] + payRate * (hoursWorkedStr[1] / 60);
-
-        const pay = `$${payTotal}`;
-
-        // Assign day to the work hours and append to the current week
-        currWeek[day] = { hours: dayHrWorked, pay };
-        const hoursWorked = (Emp.hoursWorked[Emp.hoursWorked.length - 1] =
-          currWeek);
-
-        // Get the sum of all the hours
-        let totalHoursWorked = [0, 0];
-        for (const [key, value] of Object.entries(currWeek)) {
-          if (key !== "date") {
-            const hrs = value.hours;
-            const val = hrs.split(" ");
-            const strHr = val[0].replace("hr", "");
-            const strMin = val[1].replace("min", "");
-            const valHr = parseInt(strHr);
-            const valMin = parseInt(strMin);
-
-            totalHoursWorked[0] += valHr;
-            totalHoursWorked[1] += valMin;
-          }
-        }
-
-        // Format total hours string
-        const hoursPayPeriod = `${totalHoursWorked[0]}hr ${totalHoursWorked[1]}min`;
-
-        // Update database data
-        const clockStatus = "false";
-        await Employee.updateOne(
-          { company: OrgToken, employeeNumber },
-          { $set: { clockStatus, hoursWorked, hoursPayPeriod } }
-        );
-        res.status(200);
-        res.send("Employee Clocked Out");
-      }
-    } else {
+    // If employee found
+    if (!Emp) {
       res.status(404);
       res.send("Employee Not Found");
+      return;
     }
+
+    if (Emp.clockStatus === "false") {
+      const clockStatus = Date.now();
+      await Employee.updateOne(
+        { company: OrgToken, employeeNumber },
+        { $set: { clockStatus } }
+      );
+      res.status(200);
+      res.send("Employee Clocked In");
+      return;
+    }
+
+    // Get current day
+    const weekday = [
+      "sunday",
+      "monday",
+      "tuesday",
+      "wednesday",
+      "thursday",
+      "friday",
+      "saturday",
+    ];
+    const d = new Date();
+    let day = weekday[d.getDay()];
+
+    // Get most recent pay period
+    let currWeek = Emp.hoursWorked[Emp.hoursWorked.length - 1];
+
+    // Get the current day create string
+    const currWeekDay = currWeek[day].hours;
+
+    const hoursWorkedStr = HrParse(currWeekDay, Emp);
+    const dayHrWorked = `${hoursWorkedStr[0]}hr ${hoursWorkedStr[1]}min`;
+
+    let payRate = Emp.hourlyRate.slice(1);
+    payRate = parseFloat(payRate);
+    const payTotal =
+      payRate * hoursWorkedStr[0] + payRate * (hoursWorkedStr[1] / 60);
+
+    const pay = `$${payTotal}`;
+
+    // Assign day to the work hours and append to the current week
+    currWeek[day] = { hours: dayHrWorked, pay };
+    const hoursWorked = (Emp.hoursWorked[Emp.hoursWorked.length - 1] =
+      currWeek);
+
+    // Get the sum of all the hours
+    let totalHoursWorked = [0, 0];
+    for (const [key, value] of Object.entries(currWeek)) {
+      if (key !== "date") {
+        const hrs = value.hours;
+        const val = hrs.split(" ");
+        const strHr = val[0].replace("hr", "");
+        const strMin = val[1].replace("min", "");
+        const valHr = parseInt(strHr);
+        const valMin = parseInt(strMin);
+
+        totalHoursWorked[0] += valHr;
+        totalHoursWorked[1] += valMin;
+      }
+    }
+
+    // Format total hours string
+    const hoursPayPeriod = `${totalHoursWorked[0]}hr ${totalHoursWorked[1]}min`;
+
+    // Update database data
+    const clockStatus = "false";
+    await Employee.updateOne(
+      { company: OrgToken, employeeNumber },
+      { $set: { clockStatus, hoursWorked, hoursPayPeriod } }
+    );
+    res.status(200);
+    res.send("Employee Clocked Out");
   });
 };
 
-async function validate(OrgToken, empValues) {
-  const validNums = /\d{3}-\d{2}-\d{4}/;
-  const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  let errors = [];
-
-  const flag =
-    !empValues.firstname ||
-    !empValues.lastname ||
-    !empValues.email ||
-    !empValues.employeeNumber ||
-    empValues.firstname === "" ||
-    empValues.lastname === "" ||
-    empValues.email === "" ||
-    empValues.employeeNumber === "";
-
-  if (flag) {
-    return ["First name, last name, email, and employee number are required"];
-  } else {
-    const empNum_exists = await Employee.findOne({
-      company: OrgToken,
-      employeeNumber: empValues.employeeNumber,
-    });
-    const email_exists = await Employee.findOne({
-      company: OrgToken,
-      email: empValues.email,
-    });
-
-    errors = Promise.all([empNum_exists, email_exists])
-      .then(() => {
-        e = [];
-        if (empNum_exists || email_exists) {
-          e.push("Employee already exists");
-        }
-        if (empValues.ssn && empValues.ssn !== "") {
-          if (!validNums.test(empValues.ssn)) {
-            e.push("Invalid SSN");
-          }
-        }
-
-        if (!re.test(empValues.email)) {
-          e.push("Invalid Email");
-        }
-
-        if (empValues.phonenumber) {
-          if (!empValues.phonenumber.length === 10) {
-            e.push("Invalid Phone Number");
-          }
-        }
-        if (empValues.birthDate && empValues.birthDate !== "") {
-          const valDate = validDate(empValues.birthDate);
-          if (valDate[0] === false) {
-            e.push("Invalid birth date: " + valDate[1]);
-          }
-        }
-        if (empValues.hireDate && empValues.hireDate !== "") {
-          const valDate = validDate(empValues.hireDate);
-          if (valDate[0] === false) {
-            e.push("Invalid hire date: " + valDate[1]);
-          }
-        }
-      })
-      .then(() => {
-        return e;
-      });
-
-    return errors;
-  }
-}
-function validDate(date) {
-  // Regex
-  const dateFormat = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
-  if (!dateFormat.test(date)) {
-    return [false, "Invalid Date Format"];
-  }
-  // Date Parts
-  const dateParts = date.split("/");
-  const day = parseInt(dateParts[1]);
-  const month = parseInt(dateParts[0]);
-  const year = parseInt(dateParts[2]);
-  // Year
-  const currentDate = new Date();
-  const maxYear = currentDate.getFullYear;
-  if (year < 1000 || year > maxYear) {
-    return [false, "Invalid Year"];
-  }
-  // Month
-  if (month < 1 || month > 12) {
-    return [false, "Invalid Month"];
-  }
-  // Day
-  const monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  // If leap year
-  const leap = year % 400 == 0 || (year % 100 != 0 && year % 4 == 0);
-  if (leap) {
-    monthLength[1] = 29;
-  }
-  if (day < 0 || day > monthLength[month - 1]) {
-    return [false, "Invalid Day"];
-  }
-  return true;
-}
-async function createUserPass(ssn) {
-  if (ssn && ssn !== "") {
-    const hashedSSN = await bcrypt.hash(ssn, 10);
-    const pw = ssn.split("-")[2];
-    const hashedPassword = await bcrypt.hash(pw, 10);
-    return [hashedSSN, hashedPassword];
-  } else {
-    const hashedSSN = "null";
-    const pw = Math.floor(10000 + Math.random() * 90000);
-    const hashedPassword = await bcrypt.hash(pw.toString(), 10);
-    return [hashedSSN, hashedPassword];
-  }
-}
-function HrParse(currWeekDay, Emp) {
-  const prevHours = currWeekDay.split(" ");
-
-  const strHr = prevHours[0].replace("hr", "");
-  const strMin = prevHours[1].replace("min", "");
-
-  const currTime = Date.now() - Emp.clockStatus;
-
-  const prevHr = parseInt(strHr);
-  const prevMin = parseInt(strMin);
-
-  let diffHr = Math.floor(currTime / (60 * 60 * 1000)) + prevHr;
-  let diffMin = Math.round(currTime / (60 * 1000)) + prevMin;
-
-  if (diffMin >= 60) {
-    diffMin -= 60;
-    diffHr += 1;
-  }
-
-  return [diffHr, diffMin];
-}
-
-const resetHrWorked = new cron.CronJob(
+new cron.CronJob(
   "0 0 * * Sun",
   async function () {
     const dt = cron.sendAt("0 0 * * Sun");
@@ -524,13 +474,4 @@ async function updateOrgs() {
       hoursPayPeriod: "0hr 0min",
     }
   );
-}
-function isCurrency(value) {
-  let val = value.slice(1);
-  var floatRegex = /^[+-]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/;
-  if (!floatRegex.test(val)) return false;
-
-  val = parseFloat(val);
-  if (isNaN(val)) return false;
-  return true;
 }

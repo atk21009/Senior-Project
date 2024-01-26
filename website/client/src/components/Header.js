@@ -43,13 +43,13 @@ class Headercontent extends Component {
           <a href="https://github.com/atk21009/Senior-Project/releases/download/v1.0.3/ElectronReact.Setup.4.6.0.exe">
             Download
           </a>
-          <Link to="/support">Support</Link>
+          {/* <Link to="/support">Support</Link> */}
           <div className="header-auth">{this.renderContent()}</div>
         </div>
 
         <div className="Menu">
           <i
-            class="fa-solid fa-bars dropdown-btn"
+            className="fa-solid fa-bars dropdown-btn"
             onClick={this.toggleDropdown}
           ></i>
           <div className="dropdown-header-links" id="header-dropdown">
@@ -68,9 +68,9 @@ class Headercontent extends Component {
             >
               Download
             </a>
-            <Link to="/support" onClick={this.toggleDropdown}>
+            {/* <Link to="/support" onClick={this.toggleDropdown}>
               Support
-            </Link>
+            </Link> */}
             <div className="header-auth" onClick={this.toggleDropdown}>
               {this.renderContent()}
             </div>

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const { DateString } = require("../services/DateString");
+const { DateString } = require("../utils/DateString");
 
 const employeeSchema = new Schema({
   firstname: {

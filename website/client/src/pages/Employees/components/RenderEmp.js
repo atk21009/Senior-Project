@@ -1,4 +1,4 @@
-import { EmpNoData } from "../../../store/utils/NoData";
+import { EmpNoData } from "../../../utils/NoData";
 import { Link } from "react-router-dom";
 
 export default function renderEmployees(e) {

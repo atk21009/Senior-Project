@@ -1,4 +1,4 @@
-import xIcon from "../../imgs/x-solid.svg";
+import xIcon from "../imgs/x-solid.svg";
 
 // Error Handling ----------------------------------------------------
 export default function ErrMessage(error) {

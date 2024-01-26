@@ -1,8 +1,12 @@
+// Variables
 var date = new Date();
 var day = date.getDay();
 const diffMon = date.getDate() - day + (day === 0 ? 1 : 1);
 const diffThis = date.getDate() - day + (day === 0 ? -6 : 1);
 
+////////////////////////////////////////////////////////////////////////////
+// This Monday
+////////////////////////////////////////////////////////////////////////////
 function ThisMonday() {
   var Monday = new Date();
   if (date.getDay() === 1) {
@@ -14,6 +18,9 @@ function ThisMonday() {
   return ThisSunday(Monday);
 }
 
+////////////////////////////////////////////////////////////////////////////
+// Next Monday
+////////////////////////////////////////////////////////////////////////////
 function NextMonday() {
   var Monday = new Date();
   if (date.getDay() === 1) {
@@ -25,6 +32,9 @@ function NextMonday() {
   return ThisSunday(Monday);
 }
 
+////////////////////////////////////////////////////////////////////////////
+// This Sunday
+////////////////////////////////////////////////////////////////////////////
 function ThisSunday(Monday) {
   const Sunday = new Date(Monday);
   Sunday.setDate(Monday.getDate() + 6);
@@ -33,6 +43,7 @@ function ThisSunday(Monday) {
   return dateString;
 }
 
+// Variable Strings
 const DateString = ThisMonday();
 const NextDateString = NextMonday();
 module.exports = { DateString, NextDateString };

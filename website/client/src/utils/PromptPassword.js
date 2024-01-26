@@ -1,4 +1,4 @@
-import xIcon from "../../imgs/x-solid.svg";
+import xIcon from "../imgs/x-solid.svg";
 
 export default function PromptPassword(_this, type, data) {
   let isValid = false;

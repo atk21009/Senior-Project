@@ -8,7 +8,7 @@ import * as actions from "../../store/actions";
 
 import renderOT from "./components/RenderOT";
 import renderEmployees from "./components/RenderEmp";
-import { EmpNoData } from "../../store/utils/NoData";
+import { EmpNoData } from "../../utils/NoData";
 
 class Employees extends Component {
   constructor(props) {

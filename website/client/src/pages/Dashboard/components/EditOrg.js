@@ -1,6 +1,6 @@
-import ErrMessage from "../../../store/utils/ErrMessage";
-import PromptPassword from "../../../store/utils/PromptPassword";
-import compareDict from "../../../store/utils/Validation/compareDict";
+import ErrMessage from "../../../utils/ErrMessage";
+import PromptPassword from "../../../utils/PromptPassword";
+import compareDict from "../../../utils/Validation/compareDict";
 
 const labels = ["Location", "Admin", "HR", "Company"];
 const id_labels = ["location", "admin", "hr", "company"];

@@ -47,7 +47,7 @@ class CreateEmployees extends Component {
         return (
           <div className="CE-response-ctnr">
             <i
-              class="fa-solid fa-xmark CE-response-close"
+              className="fa-solid fa-xmark CE-response-close"
               onClick={() => this.closeResponse()}
             ></i>
             <div className="CE-response-title">Errors</div>

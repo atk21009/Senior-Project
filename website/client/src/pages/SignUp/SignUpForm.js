@@ -3,7 +3,7 @@ import { Field, reduxForm } from "redux-form";
 
 import icon from "../../imgs/icon/iconWhite.svg";
 
-import validateEmails from "../../store/utils/Validation/validateEmail";
+import validateEmails from "../../utils/Validation/validateEmail";
 import _ from "lodash";
 import SignUpField from "./SignUpField";
 import SignUpFields from "./SignUpFields";

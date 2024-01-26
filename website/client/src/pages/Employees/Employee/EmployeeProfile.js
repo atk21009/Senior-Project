@@ -14,8 +14,8 @@ import {
   getClockStatus,
   allowChange,
   addDelete,
-} from "../../../store/utils/EmployeeProfileUtils";
-import { capitalize } from "../../../store/utils/Functions";
+} from "../../../utils/EmployeeProfileUtils";
+import { capitalize } from "../../../utils/Functions";
 
 function RenderContent(e) {
   const { data } = e.props.emp;

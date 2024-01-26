@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-import * as actions from "../actions";
+import * as actions from "../store/actions";
 
-import LoadingScreen from "../../components/LoadingScreen";
+import LoadingScreen from "../components/LoadingScreen";
 
 class ProtectedRoute extends Component {
   constructor(props) {

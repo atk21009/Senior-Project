@@ -1,130 +1,143 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const { authenticateJWT } = require("../utils/jwtUtils");
 
 module.exports = (app) => {
-  // login
+  ////////////////////////////////////////////////////////////////////////////
+  // Login
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/login", async (req, res) => {
     const { email, password } = req.body;
 
+    // Invalid Inputs
     if (!email || !password) {
       res.status(400);
       res.send("All fields are required");
-    } else {
-      const user = await User.findOne({ email });
-
-      if (user && (await bcrypt.compare(password, user.password))) {
-        const accessToken = jwt.sign(
-          {
-            user: {
-              firstname: user.firstname,
-              email: user.email,
-              organization: user.organization,
-              id: user.id,
-            },
-          },
-          process.env.accessTokenSecret,
-          { expiresIn: "24hr" }
-        );
-        res.status(200).json({ accessToken });
-      } else {
-        res.status(401);
-        res.send("Invalid email or password");
-      }
+      return;
     }
+
+    // Check to see if user Exists
+    const user = await User.findOne({ email });
+
+    // Check user exists and password is same
+    if (user && (await bcrypt.compare(password, user.password))) {
+      // JWT
+      const userJWT = { id: user.id, email: user.email };
+      const accessToken = jwt.sign(
+        {
+          userJWT,
+        },
+        process.env.accessTokenSecret,
+        { expiresIn: "24hr" }
+      );
+
+      // Send JWT
+      res.status(200).json({ accessToken });
+      return;
+    }
+
+    // User does not exist or password is incorrect
+    res.status(401);
+    res.send("Invalid email or password");
   });
-  // register
+
+  ////////////////////////////////////////////////////////////////////////////
+  // Register
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/register", async (req, res) => {
     const { firstname, lastname, email, password, confirmPassword } = req.body;
 
+    // Check empty
     if (!firstname || !lastname || !email || !password || !confirmPassword) {
       res.status(400);
       res.send("All fields are required");
-    } else {
-      if (password != confirmPassword) {
-        res.status(400);
-        res.send("Passwords must match");
-      } else {
-        const userExist = await User.findOne({ email });
-        if (userExist) {
-          res.status(400);
-          res.send("User already exists");
-        } else {
-          const hashedPassword = await bcrypt.hash(password, 10);
-          const user = new User({
-            firstname,
-            lastname,
-            email,
-            password: hashedPassword,
-          });
-
-          if (user) {
-            user.save();
-            const accessToken = jwt.sign(
-              {
-                user: {
-                  firstname: user.firstname,
-                  email: user.email,
-                  id: user.id,
-                },
-              },
-              process.env.accessTokenSecret,
-              { expiresIn: "1hr" }
-            );
-            res.status(200).json({ accessToken });
-          } else {
-            res.send("User data is not valid");
-          }
-        }
-      }
+      return;
     }
+
+    // Check passwords match
+    if (password != confirmPassword) {
+      res.status(400);
+      res.send("Passwords must match");
+      return;
+    }
+
+    // Check user exists
+    const userExist = await User.findOne({ email });
+    if (userExist) {
+      res.status(400);
+      res.send("User already exists");
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({
+      firstname,
+      lastname,
+      email,
+      password: hashedPassword,
+    });
+
+    // If user created
+    if (user) {
+      // Save
+      user.save();
+      // JWT
+      const userJWT = { id: user.id, email: user.email };
+      const accessToken = jwt.sign(
+        {
+          userJWT,
+        },
+        process.env.accessTokenSecret,
+        { expiresIn: "24hr" }
+      );
+      res.status(200).json({ accessToken });
+      return;
+    }
+
+    // Error creating user
+    res.status(501);
+    res.send("User data is not valid");
   });
 
-  // forgot password
+  ////////////////////////////////////////////////////////////////////////////
+  // Forgot Password
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/forgot", (req, res) => {});
 
-  // current user
-  app.get("/api/currentUser", async (req, res) => {
-    let token;
-    let authHeader = req.headers.Authorization || req.headers.authorization;
-    if (authHeader && authHeader.startsWith("Bearer")) {
-      token = authHeader.split(" ")[1];
-      jwt.verify(token, process.env.accessTokenSecret, (err, decoded) => {
-        if (err) {
-          res.status(401);
-          res.send("Invalid Token");
-        } else {
-          if (decoded) {
-            if (!token) {
-              res.status(401);
-            } else {
-              res.json(decoded.user);
-            }
-          } else {
-            res.status(401);
-            res.send("Invalid User");
-          }
-        }
-      });
-    }
+  ////////////////////////////////////////////////////////////////////////////
+  // Current User
+  ////////////////////////////////////////////////////////////////////////////
+  app.get("/api/currentUser", authenticateJWT, async (req, res) => {
+    const { id } = req.user.userJWT;
+    const user = await User.findById(id, { password: 0 });
+
+    res.status(200);
+    res.send(user);
   });
 
+  ////////////////////////////////////////////////////////////////////////////
   // Prompt Pass
+  ////////////////////////////////////////////////////////////////////////////
   app.post("/api/prompt-pass", async (req, res) => {
     const { Password, id } = req.body;
 
+    // Validate data
     if (!Password || !id) {
       res.status(400);
       res.send("Password is required");
-    } else {
-      const user = await User.findById(id, { password: 1 });
-
-      if (user && (await bcrypt.compare(Password, user.password))) {
-        res.sendStatus(202);
-      } else {
-        res.status(401);
-        res.send("Password is invalid");
-      }
+      return;
     }
+
+    // Find user and ensure password
+    const user = await User.findById(id, { password: 1 });
+    if (user && (await bcrypt.compare(Password, user.password))) {
+      res.sendStatus(202);
+      return;
+    }
+
+    // If no user or incorrect password
+    res.status(401);
+    res.send("Password is invalid");
   });
 };
